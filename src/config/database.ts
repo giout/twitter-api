@@ -1,12 +1,8 @@
 import 'dotenv/config'
-import { connect } from 'mongoose'
+import { Sequelize } from 'sequelize'
 
-export async function connection() {
-    try {
-        const uri = process.env.DB_URI
-        await connect(<string> uri)
-    } catch (err) {
-        console.log(err)
-    }
+const db = <string> process.env.DB_URI
 
-}
+const database = new Sequelize(db)
+
+export default database
