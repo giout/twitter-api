@@ -1,8 +1,9 @@
 import 'dotenv/config'
 import app from './config/app'
+import { connection } from './config/database'
 
 const port = process.env.PORT || 4000
 
-app.listen(port, () => {
-    console.log('Listening on port', port)
-})
+connection().then(() => console.log('Connected'))
+
+app.listen(port, () => {console.log('Listening on port', port)})
