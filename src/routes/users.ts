@@ -3,7 +3,7 @@ import controller from '../controllers/users'
 
 const router = Router()
 
-router.get('/', controller.searchUsers)
+router.get('/:param', controller.searchUsers)
 router.put('/', controller.updateThisUser)
 router.delete('/', controller.removeThisUser)
 
