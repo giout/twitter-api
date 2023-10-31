@@ -25,24 +25,17 @@ const queries = {
             tweet_content TEXT NOT NULL,
             tweet_likes INTEGER NOT NULL DEFAULT 0,
             creation_date TIMESTAMP NOT NULL DEFAULT NOW(),
+            comment_to INTEGER,
             PRIMARY KEY (tweet_id),
-            FOREIGN KEY (user_id) REFERENCES users (user_id) 
+            FOREIGN KEY (user_id) REFERENCES users (user_id),
+            FOREIGN KEY (comment_to) REFERENCES tweets (tweet_id),
+            CHECK (tweet_id <> comment_to)
         );
         
         CREATE TABLE IF NOT EXISTS likes (
             tweet_id INTEGER NOT NULL,
             user_id INTEGER NOT NULL,
             PRIMARY KEY(tweet_id, user_id),
-            FOREIGN KEY (tweet_id) REFERENCES tweets (tweet_id),
-            FOREIGN KEY (user_id) REFERENCES users (user_id)
-        );
-        
-        CREATE TABLE IF NOT EXISTS comments (
-            comment_id SERIAL,
-            tweet_id INTEGER NOT NULL,
-            user_id INTEGER NOT NULL,
-            comment_likes INTEGER NOT NULL DEFAULT 0,
-            PRIMARY KEY (comment_id),
             FOREIGN KEY (tweet_id) REFERENCES tweets (tweet_id),
             FOREIGN KEY (user_id) REFERENCES users (user_id)
         );`
