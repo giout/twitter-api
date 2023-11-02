@@ -1,10 +1,10 @@
 import { Router } from "express"
-import controller from '../controllers/auth.controller'
+import { logIn, signUp } from '../controllers/auth.controller'
 
 const router = Router()
 
 // rutas desprotegidas
-router.post('/login', controller.logIn)
-router.post('/signup', controller.signUp)
+router.post('/login', logIn)
+router.post('/signup', signUp)
 
 export default router
