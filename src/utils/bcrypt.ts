@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt'
 
-export const encrypt = (text: string, saltRounds: number): string => {
-    const salt = bcrypt.genSaltSync(saltRounds)
+export const encrypt = (text: string): string => {
+    const salt = bcrypt.genSaltSync(10)
     return bcrypt.hashSync(text, salt)
 }
 

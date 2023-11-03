@@ -31,7 +31,6 @@ router.route('/:id')
 // parametros activos -> popularity, oldest
 // paginacion
 // GET users/:id/tweets
-
 router.get('/:id/tweets', getUserTweets)
 
 // obtener feed de un usuario

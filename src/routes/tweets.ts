@@ -5,7 +5,7 @@ const router = Router()
 
 // crear tweet
 // POST /tweets
-router.post('/tweets', createTweet)
+router.post('/', createTweet)
 
 // obtener tweet por pk
 // GET /tweets/:id

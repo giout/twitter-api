@@ -1,5 +1,19 @@
-import pool from "../config/database"
-
+"use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.dbInit = void 0;
+const database_1 = __importDefault(require("../config/database"));
 const query = `
 CREATE TABLE IF NOT EXISTS users (
     user_id SERIAL,
@@ -8,7 +22,6 @@ CREATE TABLE IF NOT EXISTS users (
     last_name VARCHAR (30) NOT NULL,
     followers_count INTEGER NOT NULL DEFAULT 0,
     biography TEXT NOT NULL,
-    password TEX NOT NULL,
     PRIMARY KEY (user_id)
 );
 
@@ -40,17 +53,14 @@ CREATE TABLE IF NOT EXISTS likes (
     PRIMARY KEY(post_id, user_id),
     FOREIGN KEY (post_id) REFERENCES posts (post_id),
     FOREIGN KEY (user_id) REFERENCES users (user_id)
-);`
-
-
+);`;
 // crea todas las tablas y triggers de la base de datos (si no han sido creadas previamente)
-export const dbInit = async () => {
-    try{
-        await pool.query(query)
-    } catch(e) {
-        console.log(e)
-        process.exit(1)
+const dbInit = () => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        yield database_1.default.execute(query);
     }
-}
-
-// nota: el campo password es de tipo text debido a que se guardara la clave encriptada, y esto ocupa bastantes caracteres
+    catch (_a) {
+        process.exit(1);
+    }
+});
+exports.dbInit = dbInit;
