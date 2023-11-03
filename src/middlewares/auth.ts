@@ -10,7 +10,8 @@ export const authentication = (req: Request, res: Response, next: NextFunction) 
 
     // Esquema de autenticacion Bearer token
     try {
-        if (!auth.toLowerCase().startsWith('bearer') && auth.split(' ').length !== 2) {
+        if (!auth.toLowerCase().startsWith('bearer') && 
+            auth.split(' ').length !== 2) {
             throw new CustomError('Bearer token invalido', 400)
         }
         
@@ -30,3 +31,4 @@ export const authentication = (req: Request, res: Response, next: NextFunction) 
         next(error)
     }
 }
+
