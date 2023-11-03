@@ -51,7 +51,7 @@ export const logIn = async (req: Request, res: Response, next: NextFunction) => 
         // crear y enviar token de autenticacion    
         const signature = <string> process.env.TOKEN_SIGNATURE
 
-        const payload = { id: user.id } // datos que contendra el token
+        const payload = { id: user.user_id} // datos que contendra el token
 
         const token = jwt.sign(payload, signature, { 
             expiresIn: 60*60*24*30 // 1 mes

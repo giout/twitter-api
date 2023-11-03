@@ -1,8 +1,10 @@
 import { Router } from "express"
 import { getAllUsers, getAuthUser, getUserByPk, getUserFeed, getUserFollowers as getUserF, getUserTweets, removeUser, updateUser, getUserFollowing } from '../controllers/users.controller'
+import { authentication } from "../middlewares/auth"
 
 const router = Router()
 
+router.use(authentication)
 // obtener usuarios
 // parametros activos -> filter (representa username o first-name o last-name)
 // paginacion

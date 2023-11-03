@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express"
 import { deleteUser, findUserByPk, findUsers } from "../services/users.service"
+import { AuthRequest } from "../types/auth"
 
 // falta paginacion
 export const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
@@ -12,12 +13,12 @@ export const getAllUsers = async (req: Request, res: Response, next: NextFunctio
     }
 }
 
-export const getAuthUser = (req: Request, res: Response, next: NextFunction) => {
+export const getAuthUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
         // obtiene payload del token
-        // obtiene id del usuario
-        // busca en base de datos
-        // devuelve resultados
+        const { user } = (req as AuthRequest)
+        const entry = await findUserByPk(user.id)
+        res.status(200).json(entry)
     } catch(e) {
         next(e)
     }

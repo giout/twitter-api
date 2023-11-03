@@ -22,7 +22,7 @@ export const authentication = (req: Request, res: Response, next: NextFunction) 
             if (err) {
                 throw new CustomError('Sesion invalida', 401)
             }
-            // Asignando datos del token a objeto Request
+            // Se agrega una propiedad al objeto request que contendra los datos del token
             (req as AuthRequest).user = <JwtPayload> decoded 
         })
         
