@@ -3,7 +3,7 @@ import { deleteUser, findUserByPk, findUsers, updateUserByPk } from "../services
 import { AuthRequest } from "../types/auth"
 import CustomError from "../utils/CustomError"
 import { encrypt } from "../utils/bcrypt"
-import { findTweetsByUser } from "../services/tweets.service"
+import { findTweetByPk } from "../services/tweets.service"
 
 // falta paginacion
 export const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
@@ -29,7 +29,7 @@ export const getAuthUserId = async (req: Request, res: Response, next: NextFunct
 export const getUserById = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { id } = req.params
-        const user = await userExists(req, id)
+        const user = await userExists(id)
         res.status(200).json(user)
     } catch(e) {
         next(e)
@@ -40,7 +40,7 @@ export const updateUser = async (req: Request, res: Response, next: NextFunction
     try {
         const { id } = req.params
         
-        await userExists(req, id)
+        await userExists(id)
         userIsAuth(req, id)
         
         req.body.password = encrypt(req.body.password)
@@ -56,7 +56,7 @@ export const removeUser = async (req: Request, res: Response, next: NextFunction
     try {
         const { id } = req.params
         
-        userExists(req, id)
+        userExists(id)
         userIsAuth(req, id)
         
         await deleteUser(id) 
@@ -72,9 +72,9 @@ export const getUserTweets = async (req: Request, res: Response, next: NextFunct
     try {
         const { id } = req.params
 
-        await userExists(req, id)
+        await userExists(id)
 
-        const tweets = await findTweetsByUser(id)
+        const tweets = await findTweetByPk(id)
         res.status(200).json(tweets)
     } catch(e) {
         next(e)
@@ -118,7 +118,7 @@ export const getUserFeed = (req: Request, res: Response, next: NextFunction) => 
     }
 }
 
-export const userExists = async (req: Request, id: string) => {
+export const userExists = async (id: string) => {
     const user = await findUserByPk(id)
     
     if (!user)
@@ -132,5 +132,5 @@ export const userIsAuth = (req: Request, id: string) => {
     const { user } = (req as AuthRequest)
 
     if (user.id != id) 
-        throw new CustomError('Solo se puede actualizar el usuario que esta autenticado', 400)
+        throw new CustomError('No esta permitido actualizar datos de otros usuarios', 400)
 }
