@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express"
 import CustomError from "../utils/CustomError"
 import { userExists, userIsAuth } from "./users.controller"
-import { createTweetByUser, findTweetByPk } from "../services/tweets.service"
+import { createTweetByUser, deleteTweetsByPk, findTweetByPk, updateTweetByPk } from "../services/tweets.service"
 
 
 export const createTweet = async (req: Request, res: Response, next: NextFunction) => {
@@ -38,15 +38,25 @@ export const updateTweet = async (req: Request, res: Response, next: NextFunctio
         await tweetExists(id)
         await tweetBelongsToUser(req, id)
 
-        //const updatedTweet = await 
+        const { tweet_content } = req.body
+        const updatedTweet = await updateTweetByPk(id, tweet_content)
+
+        res.status(200).json(updatedTweet)
     } catch(e) {
         next(e)
     }
 }
 
-export const removeTweet = (req: Request, res: Response, next: NextFunction) => {
+export const removeTweet = async (req: Request, res: Response, next: NextFunction) => {
     try {
-                    
+        const { id } = req.params
+    
+        await tweetExists(id)
+        await tweetBelongsToUser(req, id)
+        
+        await deleteTweetsByPk(id)
+
+        res.status(200).end()
     } catch(e) {
         next(e)
     }
@@ -88,7 +98,7 @@ export const tweetExists = async (id: string) => {
     const tweet = await findTweetByPk(id)
     
     if (!tweet)
-        throw new CustomError('El usuario no existe', 400)
+        throw new CustomError('El tweet no existe', 400)
 
     return tweet
 }

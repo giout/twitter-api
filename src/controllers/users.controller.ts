@@ -42,9 +42,12 @@ export const updateUser = async (req: Request, res: Response, next: NextFunction
         
         await userExists(id)
         userIsAuth(req, id)
-        
-        req.body.password = encrypt(req.body.password)
 
+        const { password } = req.body
+
+        if (password)
+            req.body.password = encrypt(password)
+    
         const updatedUser = await updateUserByPk(id, req.body)
         res.status(200).json(updatedUser)
     } catch(e) {

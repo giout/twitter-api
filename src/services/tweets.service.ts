@@ -34,8 +34,19 @@ export const createTweetByUser = async (userId: string, content: string) => {
     return tweet.rows[0]
 }
 
-export const updatedTweetByPk = async (id: string, entry: any) => {
-    const { content } = entry
+export const updateTweetByPk = async (id: string, content: string) => {
     const sentence = 
-    `UPDATE tweets SET post_content `
+    `UPDATE posts SET post_content=$1 WHERE post_id=$2`
+
+    if (content)
+        await pool.query(sentence, [content, id])
+
+    return findTweetByPk(id)
+}
+
+export const deleteTweetsByPk = async (id: string) => {
+    const sentence = 
+    `DELETE FROM posts WHERE post_id=$1`
+
+    await pool.query(sentence, [id])
 }

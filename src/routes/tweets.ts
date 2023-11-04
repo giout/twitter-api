@@ -1,7 +1,10 @@
 import { Router } from "express"
 import { createTweet, getCommentsByTweet, getTweetById, likeTweet, removeTweet, unlikeTweet, updateTweet } from '../controllers/tweets.controller'
+import { authentication } from "../middlewares/auth"
 
 const router = Router()
+
+router.use(authentication)
 
 // crear tweet
 // POST /tweets
