@@ -24,8 +24,8 @@ CREATE TABLE IF NOT EXISTS followers (
 CREATE TABLE IF NOT EXISTS posts (
     post_id SERIAL,
     user_id INTEGER NOT NULL,
-    tweet_content TEXT NOT NULL,
-    tweet_likes INTEGER NOT NULL DEFAULT 0,
+    post_content TEXT NOT NULL,
+    post_likes INTEGER NOT NULL DEFAULT 0,
     creation_date TIMESTAMP NOT NULL DEFAULT NOW(),
     comment_to INTEGER,
     PRIMARY KEY (post_id),

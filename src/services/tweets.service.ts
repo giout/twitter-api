@@ -13,7 +13,7 @@ export const findTweetsByUser = async (userId: string) => {
 
 export const findTweetByPk = async (id: string) => {
     const sentence = selectAll +
-    `WHERE tweet_id=$1 AND comment_to IS NULL`
+    `WHERE post_id=$1 AND comment_to IS NULL`
 
     const tweets = await pool.query(sentence, [id])
 
@@ -25,7 +25,7 @@ export const findTweetByPk = async (id: string) => {
 
 export const createTweetByUser = async (userId: string, content: string) => {
     const sentence = 
-    `INSERT INTO posts (user_id, tweet_content) 
+    `INSERT INTO posts (user_id, post_content) 
     VALUES ($1, $2)
     RETURNING *`
 
@@ -37,6 +37,5 @@ export const createTweetByUser = async (userId: string, content: string) => {
 export const updatedTweetByPk = async (id: string, entry: any) => {
     const { content } = entry
     const sentence = 
-    `UPDATE tweets SET tweet_content`
-
+    `UPDATE tweets SET post_content `
 }
