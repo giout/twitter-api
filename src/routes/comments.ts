@@ -1,8 +1,10 @@
 import { Router } from "express"
-import { createComment, deleteComment, getCommentById, like, unlike, updateComment } from "../controllers/comments.controller"
+import { createCommentByTweet, deleteComment, getCommentById, like, unlike, updateComment } from "../controllers/comments.controller"
+import { authentication } from "../middlewares/auth"
 
 const router = Router()
 
+router.use(authentication)
 // obtener comentario por id 
 // GET /comments/:id
 
@@ -18,7 +20,7 @@ router.route('/:id')
 
 // crear comentario
 // POST /comments
-router.post('/', createComment)
+router.post('/', createCommentByTweet)
 
 // like
 // POST /comments/:id/like 

@@ -3,7 +3,7 @@ import { deleteUser, findUserByPk, findUsers, updateUserByPk } from "../services
 import { AuthRequest } from "../types/auth"
 import CustomError from "../utils/CustomError"
 import { encrypt } from "../utils/bcrypt"
-import { findTweetByPk } from "../services/tweets.service"
+import { findTweetByPk, findTweetsByUser } from "../services/tweets.service"
 
 // falta paginacion
 export const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
@@ -76,8 +76,8 @@ export const getUserTweets = async (req: Request, res: Response, next: NextFunct
         const { id } = req.params
 
         await userExists(id)
+        const tweets = await findTweetsByUser(id)
 
-        const tweets = await findTweetByPk(id)
         res.status(200).json(tweets)
     } catch(e) {
         next(e)
@@ -135,5 +135,5 @@ export const userIsAuth = (req: Request, id: string) => {
     const { user } = (req as AuthRequest)
 
     if (user.id != id) 
-        throw new CustomError('No esta permitido actualizar datos de otros usuarios', 400)
+        throw new CustomError('No esta permitido crear, actualizar o eliminar datos de un usuario diferente al autenticado', 400)
 }

@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express"
 import CustomError from "../utils/CustomError"
 import { userExists, userIsAuth } from "./users.controller"
-import { createTweetByUser, deleteTweetsByPk, findTweetByPk, updateTweetByPk } from "../services/tweets.service"
+import { createTweetByUser, deleteTweetByPk, findTweetByPk, updateTweetByPk } from "../services/tweets.service"
 
 
 export const createTweet = async (req: Request, res: Response, next: NextFunction) => {
@@ -12,6 +12,7 @@ export const createTweet = async (req: Request, res: Response, next: NextFunctio
             throw new CustomError('Faltan campos por llenar', 400)
         
         await userExists(user_id)
+        userIsAuth(req, user_id)
 
         const createdTweet = await createTweetByUser(user_id, tweet_content)
         
@@ -39,6 +40,7 @@ export const updateTweet = async (req: Request, res: Response, next: NextFunctio
         await tweetBelongsToUser(req, id)
 
         const { tweet_content } = req.body
+
         const updatedTweet = await updateTweetByPk(id, tweet_content)
 
         res.status(200).json(updatedTweet)
@@ -54,7 +56,7 @@ export const removeTweet = async (req: Request, res: Response, next: NextFunctio
         await tweetExists(id)
         await tweetBelongsToUser(req, id)
         
-        await deleteTweetsByPk(id)
+        await deleteTweetByPk(id)
 
         res.status(200).end()
     } catch(e) {
