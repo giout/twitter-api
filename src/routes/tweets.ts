@@ -1,5 +1,5 @@
 import { Router } from "express"
-import { createTweet, getCommentsByTweet, getTweetByPk, likeTweet, removeTweet, unlikeTweet, updateTweet } from '../controllers/tweets.controller'
+import { createTweet, getCommentsByTweet, getTweetById, likeTweet, removeTweet, unlikeTweet, updateTweet } from '../controllers/tweets.controller'
 
 const router = Router()
 
@@ -17,7 +17,7 @@ router.post('/', createTweet)
 // DELETE /tweets/:id
 
 router.route('/:id')
-    .get(getTweetByPk)
+    .get(getTweetById)
     .put(updateTweet)
     .delete(removeTweet)
 

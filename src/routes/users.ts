@@ -1,5 +1,5 @@
 import { Router } from "express"
-import { getAllUsers, getAuthUser, getUserByPk, getUserFeed, getUserFollowers as getUserF, getUserTweets, removeUser, updateUser, getUserFollowing } from '../controllers/users.controller'
+import { getAllUsers, getAuthUserId, getUserById, getUserFeed, getUserFollowers as getUserF, getUserTweets, removeUser, updateUser, getUserFollowing } from '../controllers/users.controller'
 import { authentication } from "../middlewares/auth"
 
 const router = Router()
@@ -13,7 +13,7 @@ router.get('/', getAllUsers)
 
 // obtener usuario validado por JWT
 // GET users/me
-router.get('/me', getAuthUser)
+router.get('/me', getAuthUserId)
 
 // obtener usuario por pk
 //  GET users/:id
@@ -25,7 +25,7 @@ router.get('/me', getAuthUser)
 // DELETE users/:id
 
 router.route('/:id')
-    .get(getUserByPk)
+    .get(getUserById)
     .put(updateUser)
     .delete(removeUser)
 

@@ -1,6 +1,9 @@
 import { NextFunction, Request, Response } from "express"
-import { deleteUser, findUserByPk, findUsers } from "../services/users.service"
+import { deleteUser, findUserByPk, findUsers, updateUserByPk } from "../services/users.service"
 import { AuthRequest } from "../types/auth"
+import CustomError from "../utils/CustomError"
+import { encrypt } from "../utils/bcrypt"
+import { findTweetsByUser } from "../services/tweets.service"
 
 // falta paginacion
 export const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
@@ -13,32 +16,37 @@ export const getAllUsers = async (req: Request, res: Response, next: NextFunctio
     }
 }
 
-export const getAuthUser = async (req: Request, res: Response, next: NextFunction) => {
+export const getAuthUserId = async (req: Request, res: Response, next: NextFunction) => {
     try {
         // obtiene payload del token
         const { user } = (req as AuthRequest)
-        const entry = await findUserByPk(user.id)
-        res.status(200).json(entry)
+        res.status(200).json({ id: user.id })
     } catch(e) {
         next(e)
     }
 }
 
-export const getUserByPk = async (req: Request, res: Response, next: NextFunction) => {
+export const getUserById = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { id } = req.params
-        const user = await findUserByPk(id)
+        const user = await userExists(req, id)
         res.status(200).json(user)
     } catch(e) {
         next(e)
     }   
 }
 
-export const updateUser = (req: Request, res: Response, next: NextFunction) => {
+export const updateUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        // obtiene id por parametro pasivo
-        // obtiene body del request
-        // actualiza en base de datos
+        const { id } = req.params
+        
+        await userExists(req, id)
+        userIsAuth(req, id)
+        
+        req.body.password = encrypt(req.body.password)
+
+        const updatedUser = await updateUserByPk(id, req.body)
+        res.status(200).json(updatedUser)
     } catch(e) {
         next(e)
     }
@@ -47,6 +55,10 @@ export const updateUser = (req: Request, res: Response, next: NextFunction) => {
 export const removeUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { id } = req.params
+        
+        userExists(req, id)
+        userIsAuth(req, id)
+        
         await deleteUser(id) 
         res.status(200).end()
     } catch(e) {
@@ -54,39 +66,28 @@ export const removeUser = async (req: Request, res: Response, next: NextFunction
     }
 }
 
+// filtrado
 // paginacion
-export const getUserTweets = (req: Request, res: Response, next: NextFunction) => {
+export const getUserTweets = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        // obtiene parametros activos
-        // obtiene id por parametro pasivo
-        // busca en base de datos
-        // si los parametros activos existen, la busqueda se filtra
-        // devuelve resultados
+        const { id } = req.params
+
+        await userExists(req, id)
+
+        const tweets = await findTweetsByUser(id)
+        res.status(200).json(tweets)
     } catch(e) {
         next(e)
     }
 }
 
-// paginacion
-export const getUserFeed = (req: Request, res: Response, next: NextFunction) => {
-    try {   
-        // obtiene parametros activos
-        // obtiene id por parametro pasivo
-        // busca en base de datos
-        // si los parametros activos existen, la busqueda se filtra
-        // devuelve resultados
-    } catch(e) {
-        next(e)
-    }
-}
 
 // paginacion
+// filtrado
 export const getUserFollowers = (req: Request, res: Response, next: NextFunction) => {
     try {
-        // obtiene parametros activos
         // obtiene id por parametro pasivo
         // busca en base de datos
-        // si los parametros activos existen, la busqueda se filtra
         // devuelve resultados
     } catch(e) {
         next(e)
@@ -94,14 +95,42 @@ export const getUserFollowers = (req: Request, res: Response, next: NextFunction
 }
 
 // paginacion
+// filtrado
 export const getUserFollowing = (req: Request, res: Response, next: NextFunction) => {
     try {
-        // obtiene parametros activos
         // obtiene id por parametro pasivo
         // busca en base de datos
-        // si los parametros activos existen, la busqueda se filtra
         // devuelve resultados
     } catch(e) {
         next(e)
     }
+}
+
+// paginacion
+// filtrado
+export const getUserFeed = (req: Request, res: Response, next: NextFunction) => {
+    try {   
+        // obtiene id por parametro pasivo
+        // busca en base de datos
+        // devuelve resultados
+    } catch(e) {
+        next(e)
+    }
+}
+
+export const userExists = async (req: Request, id: string) => {
+    const user = await findUserByPk(id)
+    
+    if (!user)
+        throw new CustomError('El usuario no existe', 400)
+
+    return user
+}
+
+// verifica si el id del usuario autenticado es igual al id ingresado
+export const userIsAuth = (req: Request, id: string) => {
+    const { user } = (req as AuthRequest)
+
+    if (user.id != id) 
+        throw new CustomError('Solo se puede actualizar el usuario que esta autenticado', 400)
 }

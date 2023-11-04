@@ -7,7 +7,7 @@ import jwt from "jsonwebtoken"
 
 export const signUp = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        let { alias, firstName, lastName, biography, password } = req.body
+        let { alias, first_name, last_name, biography, password } = req.body
 
         const user = await findUserByAlias(alias)
 
@@ -15,8 +15,8 @@ export const signUp = async (req: Request, res: Response, next: NextFunction) =>
             throw new CustomError('El usuario ya existe', 400)
 
         // validacion de campos vacios
-        if (!(alias && firstName && lastName && biography && password))
-            throw new CustomError('Faltan campos por enviar.', 400)
+        if (!(alias && first_name && last_name && biography && password))
+            throw new CustomError('Faltan campos por llenar', 400)
 
         // validacion de clave
         if (!validatePassword(password))
@@ -24,9 +24,9 @@ export const signUp = async (req: Request, res: Response, next: NextFunction) =>
 
         password = encrypt(password) // encriptacion de clave
 
-        await createUser(alias, firstName, lastName, biography, password)
+        const createdUser = await createUser(alias, first_name, last_name, biography, password)
 
-        res.status(201).json({alias, firstName, lastName, biography, password})
+        res.status(201).json(createdUser)
     } catch(e) {
         next(e)
     }
