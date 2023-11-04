@@ -1,6 +1,3 @@
-import pool from "../config/database"
-
-const query = `
 CREATE TABLE IF NOT EXISTS users (
     user_id SERIAL,
     alias VARCHAR(20) NOT NULL UNIQUE,
@@ -40,17 +37,4 @@ CREATE TABLE IF NOT EXISTS likes (
     PRIMARY KEY(post_id, user_id),
     FOREIGN KEY (post_id) REFERENCES posts (post_id),
     FOREIGN KEY (user_id) REFERENCES users (user_id)
-);`
-
-
-// crea todas las tablas y triggers de la base de datos (si no han sido creadas previamente)
-export const dbInit = async () => {
-    try{
-        await pool.query(query)
-    } catch(e) {
-        console.log(e)
-        process.exit(1)
-    }
-}
-
-// nota: el campo password es de tipo text debido a que se guardara la clave encriptada, y esto ocupa bastantes caracteres
+);
