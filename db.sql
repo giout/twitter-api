@@ -1,3 +1,4 @@
+-- Postgresql 14
 CREATE TABLE IF NOT EXISTS users (
     user_id SERIAL,
     alias VARCHAR(20) NOT NULL UNIQUE,
@@ -38,3 +39,44 @@ CREATE TABLE IF NOT EXISTS likes (
     FOREIGN KEY (post_id) REFERENCES posts (post_id),
     FOREIGN KEY (user_id) REFERENCES users (user_id)
 );
+
+-- Al agregar un registro a likes, se incrementa el valor post_likes en el registro de posts, y al eliminar un registro, ocurre lo opuesto
+CREATE OR REPLACE FUNCTION increase_post_likes() 
+    RETURNS TRIGGER 
+    AS 
+    $$
+    BEGIN
+        UPDATE posts
+        SET post_likes=post_likes+1
+        WHERE post_id = NEW.post_id;
+        RETURN NEW;
+    END
+    $$
+    LANGUAGE PLPGSQL
+
+CREATE OR REPLACE FUNCTION decrease_post_likes() 
+    RETURNS TRIGGER 
+    AS 
+    $$
+    BEGIN
+        UPDATE posts
+        SET post_likes=post_likes-1
+        WHERE post_id = OLD.post_id;
+        RETURN OLD;
+    END
+    $$
+    LANGUAGE PLPGSQL
+
+CREATE OR REPLACE TRIGGER like_post
+    AFTER INSERT 
+    ON likes
+    FOR EACH ROW
+    EXECUTE FUNCTION increase_post_likes();
+
+CREATE OR REPLACE TRIGGER unlike_post
+    AFTER DELETE 
+    ON likes
+    FOR EACH ROW
+    EXECUTE FUNCTION decrease_post_likes();
+
+--
