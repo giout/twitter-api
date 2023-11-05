@@ -1,10 +1,15 @@
 import { Router } from "express"
-import { createTweet, getCommentsByTweet, getTweetById, removeTweet, updateTweet } from '../controllers/tweets.controller'
+import { createTweet, getCommentsByTweet, getTweetById, removeTweet, updateTweet, getFeed } from '../controllers/tweets.controller'
 import { authentication } from "../middlewares/auth"
 
 const router = Router()
 
 router.use(authentication)
+
+// obtener feed de un usuario
+// parametros activos -> popularity, oldest
+// paginacion
+router.get('/', getFeed)
 
 // crear tweet
 // POST /tweets

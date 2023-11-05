@@ -2,7 +2,7 @@ import pool from "../config/database"
 import sql from './queries/follows.query'
 
 export const findFollow = async (user_follower: string , user_following: string) => {
-    const likes = await pool.query(sql.selectAllBy.userAndPost, [user_follower, user_following])
+    const likes = await pool.query(sql.selectAllBy.followerAndFollowing, [user_follower, user_following])
 
     if (likes.rows[0])
         return likes.rows[0]
@@ -17,4 +17,14 @@ export const createFollow = async (user_follower: string , user_following: strin
 
 export const deleteFollow = async (user_follower: string , user_following: string) => {
     await pool.query(sql.delete, [user_follower, user_following])
+}
+
+export const findUserFollowers = async (user_following: string) => {
+   const followers = await pool.query(sql.selectFollowers, [user_following])
+   return followers.rows
+}
+
+export const findUserFollowings = async (user_follower: string) => {
+    const followings = await pool.query(sql.selectFollowings, [user_follower])
+    return followings.rows
 }

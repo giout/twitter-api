@@ -1,5 +1,5 @@
 import { Router } from "express"
-import { getAllUsers, getAuthUserId, getUserById, getUserFeed, getUserFollowers as getUserF, getUserTweets, removeUser, updateUser, getUserFollowing } from '../controllers/users.controller'
+import { getAllUsers, getAuthUserId, getUserById, getUserFollowers as getUserF, getUserTweets, removeUser, updateUser, getUserFollowing } from '../controllers/users.controller'
 import { authentication } from "../middlewares/auth"
 
 const router = Router()
@@ -35,12 +35,6 @@ router.route('/:id')
 // GET users/:id/tweets
 router.get('/:id/tweets', getUserTweets)
 
-// obtener feed de un usuario
-// parametros activos -> popularity, oldest
-// paginacion
-// GET users/:id/feed
-router.get('/:id/feed', getUserFeed)
-
 // obtener seguidores de un usuario
 // paginacion
 // GET users/:id/followers
@@ -49,6 +43,6 @@ router.get('/:id/followers', getUserF)
 // obtener seguidos de un usuario
 // paginacion
 // GET users/:id/following
-router.get('/:id/following', getUserFollowing)
+router.get('/:id/followings', getUserFollowing)
 
 export default router

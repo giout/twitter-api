@@ -1,9 +1,10 @@
 import { NextFunction, Request, Response } from "express"
 import CustomError from "../utils/CustomError"
 import { userExists, userIsAuth } from "../utils/users"
-import { createTweetByUser, deleteTweetByPk, updateTweetByPk } from "../services/tweets.service"
+import { createTweetByUser, deleteTweetByPk, findAllTweets, updateTweetByPk } from "../services/tweets.service"
 import { tweetExists } from "../utils/tweets"
 import { postBelongsToUser } from "../utils/posts"
+import { findCommentsByTweet } from "../services/comments.service"
 
 export const createTweet = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -65,11 +66,26 @@ export const removeTweet = async (req: Request, res: Response, next: NextFunctio
     }
 }
 
-export const getCommentsByTweet = (req: Request, res: Response, next: NextFunction) => {
+export const getCommentsByTweet = async (req: Request, res: Response, next: NextFunction) => {
     try {
-                    
+        const { id } = req.params
+
+        await tweetExists(id)
+
+        const comments = await findCommentsByTweet(id)
+        res.status(200).json(comments)
     } catch(e) {
         next(e)
     }
 }
 
+// paginacion
+// filtrado
+export const getFeed = async (req: Request, res: Response, next: NextFunction) => {
+    try {   
+        const tweets = await findAllTweets()
+        res.status(200).json(tweets)
+    } catch(e) {
+        next(e)
+    }
+}

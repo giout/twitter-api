@@ -36,3 +36,8 @@ export const updateTweetByPk = async (id: string, content: string) => {
 export const deleteTweetByPk = async (id: string) => {
     await pool.query(sql.delete, [id])
 }
+
+export const findAllTweets = async () => {
+    const tweets = await pool.query(sql.selectAll)
+    return tweets.rows
+}

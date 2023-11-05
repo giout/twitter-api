@@ -4,6 +4,7 @@ import { AuthRequest } from "../types/auth"
 import { encrypt } from "../utils/bcrypt"
 import { findTweetByPk, findTweetsByUser } from "../services/tweets.service"
 import { userExists, userIsAuth } from "../utils/users"
+import { findUserFollowers, findUserFollowings } from "../services/follows.service"
 
 // falta paginacion
 export const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
@@ -87,13 +88,14 @@ export const getUserTweets = async (req: Request, res: Response, next: NextFunct
 
 // paginacion
 // filtrado
-export const getUserFollowers = (req: Request, res: Response, next: NextFunction) => {
+export const getUserFollowers = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        // obtiene id por parametro pasivo
         const { id } = req.params
-        // busca en base de datos
-        
-        // devuelve resultados
+        await userExists(id)
+
+        const followers = await findUserFollowers(id)
+
+        res.status(200).json(followers)
     } catch(e) {
         next(e)
     }
@@ -101,24 +103,17 @@ export const getUserFollowers = (req: Request, res: Response, next: NextFunction
 
 // paginacion
 // filtrado
-export const getUserFollowing = (req: Request, res: Response, next: NextFunction) => {
+export const getUserFollowing = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        // obtiene id por parametro pasivo
-        // busca en base de datos
-        // devuelve resultados
+        const { id } = req.params
+        await userExists(id)
+
+        const followings = await findUserFollowings(id)
+
+        res.status(200).json(followings)
     } catch(e) {
         next(e)
     }
 }
 
-// paginacion
-// filtrado
-export const getUserFeed = (req: Request, res: Response, next: NextFunction) => {
-    try {   
-        // obtiene id por parametro pasivo
-        // busca en base de datos
-        // devuelve resultados
-    } catch(e) {
-        next(e)
-    }
-}
+

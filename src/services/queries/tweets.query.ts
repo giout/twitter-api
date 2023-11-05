@@ -1,4 +1,5 @@
 const sql = {
+    selectAll: 'SELECT * FROM posts WHERE comment_to IS NULL',
     selectAllBy: {
         user: 'SELECT * FROM posts WHERE user_id=$1 AND comment_to IS NULL',
         pk: 'SELECT * FROM posts WHERE post_id=$1 AND comment_to IS NULL'

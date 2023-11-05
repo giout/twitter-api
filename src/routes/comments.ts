@@ -1,5 +1,5 @@
 import { Router } from "express"
-import { createCommentByTweet, deleteComment, getCommentById, likeComment, unlikeComment, updateComment } from "../controllers/comments.controller"
+import { createCommentByTweet, deleteComment, getCommentById, updateComment } from "../controllers/comments.controller"
 import { authentication } from "../middlewares/auth"
 
 const router = Router()
