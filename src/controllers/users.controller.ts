@@ -90,7 +90,9 @@ export const getUserTweets = async (req: Request, res: Response, next: NextFunct
 export const getUserFollowers = (req: Request, res: Response, next: NextFunction) => {
     try {
         // obtiene id por parametro pasivo
+        const { id } = req.params
         // busca en base de datos
+        
         // devuelve resultados
     } catch(e) {
         next(e)

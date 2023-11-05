@@ -10,9 +10,9 @@ CREATE TABLE IF NOT EXISTS users (
     PRIMARY KEY (user_id)
 );
 
-CREATE TABLE IF NOT EXISTS followers (
-    user_follower INTEGER NOT NULL,
-    user_following INTEGER NOT NULL,
+CREATE TABLE IF NOT EXISTS follows (
+    user_follower INTEGER,
+    user_following INTEGER,
     PRIMARY KEY(user_follower, user_following),
     FOREIGN KEY (user_follower) REFERENCES users (user_id),
     FOREIGN KEY (user_following) REFERENCES users (user_id),
@@ -33,8 +33,8 @@ CREATE TABLE IF NOT EXISTS posts (
 );
 
 CREATE TABLE IF NOT EXISTS likes (
-    post_id INTEGER NOT NULL,
-    user_id INTEGER NOT NULL,
+    post_id INTEGER,
+    user_id INTEGER,
     PRIMARY KEY(post_id, user_id),
     FOREIGN KEY (post_id) REFERENCES posts (post_id),
     FOREIGN KEY (user_id) REFERENCES users (user_id)
@@ -79,4 +79,4 @@ CREATE OR REPLACE TRIGGER unlike_post
     FOR EACH ROW
     EXECUTE FUNCTION decrease_post_likes();
 
---
+    --
