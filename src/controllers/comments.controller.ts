@@ -3,6 +3,8 @@ import { createCommentByTweetPk, deleteCommentByPk, findCommentByPk, updateComme
 import CustomError from "../utils/CustomError"
 import { userExists, userIsAuth } from "../utils/users"
 import { tweetExists } from "../utils/tweets"
+import { commentExists } from "../utils/comments"
+import { postBelongsToUser } from "../utils/posts"
 
 export const getCommentById = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -39,7 +41,7 @@ export const updateComment = async (req: Request, res: Response, next: NextFunct
         const { comment_content } = req.body
 
         await commentExists(id)
-        await commentBelongsToUser(req, id)
+        await postBelongsToUser(req, id)
 
         const updatedComment = await updateCommentByPk(id, comment_content)
         res.status(200).json(updatedComment)
@@ -53,43 +55,11 @@ export const deleteComment = async (req: Request, res: Response, next: NextFunct
         const { id } = req.params
 
         await commentExists(id)
-        await commentBelongsToUser(req, id)
+        await postBelongsToUser(req, id)
 
         await deleteCommentByPk(id)
         res.status(200).end()
     } catch (e) {
         next(e)
     }
-}
-
-export const likeComment = (req: Request, res: Response, next: NextFunction) => {
-    try {
-
-    } catch (e) {
-        next(e)
-    }
-}
-
-export const unlikeComment = (req: Request, res: Response, next: NextFunction) => {
-    try {
-
-    } catch (e) {
-        next(e)
-    }
-}
-
-// comprueba que el tweet pertenence al usuario que esta autenticado en la api
-const commentBelongsToUser = async (req: Request, id: string) => {
-    const comment = await findCommentByPk(id)
-    const userId = comment.user_id
-
-    userIsAuth(req, userId)    
-}
-
-const commentExists = async (id: string) => {
-    const comment = await findCommentByPk(id)
-    if (!comment)
-        throw new CustomError('El comentario no existe', 400)
-
-    return comment   
 }

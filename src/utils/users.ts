@@ -1,5 +1,3 @@
-import { findPostByPk } from '../services/posts.service'
-import { findTweetByPk } from '../services/tweets.service'
 import { findUserByPk } from '../services/users.service'
 import { AuthRequest } from '../types/auth'
 import { Request } from 'express'

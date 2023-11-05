@@ -2,7 +2,8 @@ import { NextFunction, Request, Response } from "express"
 import CustomError from "../utils/CustomError"
 import { userExists, userIsAuth } from "../utils/users"
 import { createTweetByUser, deleteTweetByPk, updateTweetByPk } from "../services/tweets.service"
-import { tweetBelongsToUser, tweetExists } from "../utils/tweets"
+import { tweetExists } from "../utils/tweets"
+import { postBelongsToUser } from "../utils/posts"
 
 export const createTweet = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -37,7 +38,7 @@ export const updateTweet = async (req: Request, res: Response, next: NextFunctio
         const { id } = req.params
 
         await tweetExists(id)
-        await tweetBelongsToUser(req, id)
+        await postBelongsToUser(req, id)
 
         const { tweet_content } = req.body
 
@@ -54,7 +55,7 @@ export const removeTweet = async (req: Request, res: Response, next: NextFunctio
         const { id } = req.params
     
         await tweetExists(id)
-        await tweetBelongsToUser(req, id)
+        await postBelongsToUser(req, id)
         
         await deleteTweetByPk(id)
 
