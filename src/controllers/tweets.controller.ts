@@ -1,7 +1,8 @@
 import { NextFunction, Request, Response } from "express"
 import CustomError from "../utils/CustomError"
-import { userExists, userIsAuth } from "./users.controller"
-import { createTweetByUser, deleteTweetByPk, findTweetByPk, updateTweetByPk } from "../services/tweets.service"
+import { userExists, userIsAuth } from "../utils/users"
+import { createTweetByUser, deleteTweetByPk, updateTweetByPk } from "../services/tweets.service"
+import { tweetBelongsToUser, tweetExists } from "../utils/tweets"
 
 export const createTweet = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -71,19 +72,3 @@ export const getCommentsByTweet = (req: Request, res: Response, next: NextFuncti
     }
 }
 
-// comprueba que el tweet pertenence al usuario que esta autenticado en la api
-export const tweetBelongsToUser = async (req: Request, id: string) => {
-    const tweet = await findTweetByPk(id)
-    const userId = tweet.user_id
-
-    userIsAuth(req, userId)    
-}
-
-export const tweetExists = async (id: string) => {
-    const tweet = await findTweetByPk(id)
-    
-    if (!tweet)
-        throw new CustomError('El tweet no existe', 400)
-
-    return tweet
-}

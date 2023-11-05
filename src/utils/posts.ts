@@ -1,5 +1,5 @@
-import { findPostByPk } from '../services/posts.service'
-import CustomError from '../utils/CustomError'
+import { findPostByPk } from "../services/posts.service"
+import CustomError from "./CustomError"
 
 // los tweets y comentarios pertenecen a la misma entidad (posts), y en algunos escenarios seran tratados por igual
 export const postExists = async (id: string) => {

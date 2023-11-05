@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express"
-import { postExists } from "./posts.controller"
+import { postExists } from "../utils/posts"
 import CustomError from "../utils/CustomError"
 import { createLike, deleteLike, findLike } from "../services/likes.service"
 
