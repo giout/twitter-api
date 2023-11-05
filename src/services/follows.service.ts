@@ -19,12 +19,3 @@ export const deleteFollow = async (user_follower: string , user_following: strin
     await pool.query(sql.delete, [user_follower, user_following])
 }
 
-export const findUserFollowers = async (user_following: string) => {
-   const followers = await pool.query(sql.selectFollowers, [user_following])
-   return followers.rows
-}
-
-export const findUserFollowings = async (user_follower: string) => {
-    const followings = await pool.query(sql.selectFollowings, [user_follower])
-    return followings.rows
-}

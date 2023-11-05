@@ -67,3 +67,13 @@ export const updateUserByPk = async(id: string, entry: any) => {
 
     return findUserByPk(id)
 }
+
+export const findFollowersByPk = async (user_following: string) => {
+    const followers = await pool.query(sql.selectFollowers, [user_following])
+    return followers.rows
+ }
+ 
+ export const findFollowingsByPk = async (user_follower: string) => {
+     const followings = await pool.query(sql.selectFollowings, [user_follower])
+     return followings.rows
+ }

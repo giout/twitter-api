@@ -4,7 +4,7 @@ import { AuthRequest } from "../types/auth"
 import { encrypt } from "../utils/bcrypt"
 import { findTweetByPk, findTweetsByUser } from "../services/tweets.service"
 import { userExists, userIsAuth } from "../utils/users"
-import { findUserFollowers, findUserFollowings } from "../services/follows.service"
+import { findFollowersByPk, findFollowingsByPk } from "../services/users.service"
 
 // falta paginacion
 export const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
@@ -93,7 +93,7 @@ export const getUserFollowers = async (req: Request, res: Response, next: NextFu
         const { id } = req.params
         await userExists(id)
 
-        const followers = await findUserFollowers(id)
+        const followers = await findFollowersByPk(id)
 
         res.status(200).json(followers)
     } catch(e) {
@@ -108,7 +108,7 @@ export const getUserFollowing = async (req: Request, res: Response, next: NextFu
         const { id } = req.params
         await userExists(id)
 
-        const followings = await findUserFollowings(id)
+        const followings = await findFollowingsByPk(id)
 
         res.status(200).json(followings)
     } catch(e) {

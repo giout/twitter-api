@@ -1,4 +1,8 @@
 const sql = {
+    selectFollowers: 'SELECT * FROM users WHERE user_id IN ( SELECT user_follower FROM follows WHERE user_following=$1 )',
+
+    selectFollowings: 'SELECT * FROM users WHERE user_id IN ( SELECT user_following FROM follows WHERE user_follower=$1 )',
+    
     selectAllBy: {
         aliasOrName:`SELECT * FROM users WHERE alias iLIKE $1 || '%' OR first_name iLIKE $1 || '%' OR last_name iLIKE $1 || '%'`,
 
