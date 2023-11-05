@@ -1,5 +1,5 @@
 import { Router } from "express"
-import { createCommentByTweet, deleteComment, getCommentById, like, unlike, updateComment } from "../controllers/comments.controller"
+import { createCommentByTweet, deleteComment, getCommentById, likeComment, unlikeComment, updateComment } from "../controllers/comments.controller"
 import { authentication } from "../middlewares/auth"
 
 const router = Router()
@@ -27,8 +27,5 @@ router.post('/', createCommentByTweet)
 
 // unlike
 // DELETE /comments/:id/like
-router.route('/:id/like')
-    .post(like)
-    .delete(unlike)
 
 export default router

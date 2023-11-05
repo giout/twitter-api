@@ -1,5 +1,5 @@
 import { Router } from "express"
-import { createTweet, getCommentsByTweet, getTweetById, likeTweet, removeTweet, unlikeTweet, updateTweet } from '../controllers/tweets.controller'
+import { createTweet, getCommentsByTweet, getTweetById, removeTweet, updateTweet } from '../controllers/tweets.controller'
 import { authentication } from "../middlewares/auth"
 
 const router = Router()
@@ -28,15 +28,5 @@ router.route('/:id')
 // paginacion
 // GET /tweets/:id/comments
 router.get('/:id/comments', getCommentsByTweet)
-
-// like
-// POST /tweets/:id/like 
-
-// unlike
-// DELETE /tweets/:id/like
-
-router.route('/:id/like')
-    .post(likeTweet)
-    .delete(unlikeTweet)
 
 export default router

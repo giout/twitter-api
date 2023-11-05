@@ -3,7 +3,6 @@ import CustomError from "../utils/CustomError"
 import { userExists, userIsAuth } from "./users.controller"
 import { createTweetByUser, deleteTweetByPk, findTweetByPk, updateTweetByPk } from "../services/tweets.service"
 
-
 export const createTweet = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { user_id, tweet_content } = req.body
@@ -65,22 +64,6 @@ export const removeTweet = async (req: Request, res: Response, next: NextFunctio
 }
 
 export const getCommentsByTweet = (req: Request, res: Response, next: NextFunction) => {
-    try {
-                    
-    } catch(e) {
-        next(e)
-    }
-}
-
-export const likeTweet = (req: Request, res: Response, next: NextFunction) => {
-    try {
-                    
-    } catch(e) {
-        next(e)
-    }
-}
-
-export const unlikeTweet = (req: Request, res: Response, next: NextFunction) => {
     try {
                     
     } catch(e) {

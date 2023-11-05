@@ -62,7 +62,7 @@ export const deleteComment = async (req: Request, res: Response, next: NextFunct
     }
 }
 
-export const like = (req: Request, res: Response, next: NextFunction) => {
+export const likeComment = (req: Request, res: Response, next: NextFunction) => {
     try {
 
     } catch (e) {
@@ -70,7 +70,7 @@ export const like = (req: Request, res: Response, next: NextFunction) => {
     }
 }
 
-export const unlike = (req: Request, res: Response, next: NextFunction) => {
+export const unlikeComment = (req: Request, res: Response, next: NextFunction) => {
     try {
 
     } catch (e) {
