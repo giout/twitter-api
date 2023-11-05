@@ -8,4 +8,5 @@ router.use(authentication)
 
 router.route('/')
     .post(handleFollow)
+    
 export default router

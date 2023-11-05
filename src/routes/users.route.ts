@@ -5,44 +5,20 @@ import { authentication } from "../middlewares/auth"
 const router = Router()
 
 router.use(authentication)
-// obtener usuarios
-// parametros activos -> filter (representa username o first-name o last-name)
-// paginacion
-// GET users
+
 router.get('/', getAllUsers)
 
-// obtener usuario validado por JWT
-// GET users/me
 router.get('/me', getAuthUserId)
-
-// obtener usuario por pk
-//  GET users/:id
-
-// actualizar usuario
-// PUT users/:id
-
-// eliminar usuario
-// DELETE users/:id
 
 router.route('/:id')
     .get(getUserById)
     .put(updateUser)
     .delete(removeUser)
-
-// obtener tweets de usuario
-// parametros activos -> popularity, oldest
-// paginacion
-// GET users/:id/tweets
+    
 router.get('/:id/tweets', getUserTweets)
 
-// obtener seguidores de un usuario
-// paginacion
-// GET users/:id/followers
 router.get('/:id/followers', getUserF)
 
-// obtener seguidos de un usuario
-// paginacion
-// GET users/:id/following
 router.get('/:id/followings', getUserFollowing)
 
 export default router

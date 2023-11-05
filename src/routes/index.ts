@@ -1,10 +1,10 @@
 import { Router } from "express"
-import authRouter from './auth'
-import commentRouter from './comments'
-import followRouter from './follows'
-import tweetRouter from './tweets'
-import userRouter from './users'
-import likeRouter from './likes'
+import authRouter from './auth.route'
+import commentRouter from './comments.route'
+import followRouter from './follows.route'
+import tweetRouter from './tweets.route'
+import userRouter from './users.route'
+import likeRouter from './likes.route'
 
 const router = Router()
 
