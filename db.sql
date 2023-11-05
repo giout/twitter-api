@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS likes (
     FOREIGN KEY (user_id) REFERENCES users (user_id)
 );
 
--- Al agregar un registro a likes, se incrementa el valor post_likes en el registro de posts, y al eliminar un registro, ocurre lo opuesto
+-- al agregar un registro a la tabla likes, se incrementa post_likes en el post correspondiente
 CREATE OR REPLACE FUNCTION increase_post_likes() 
     RETURNS TRIGGER 
     AS 
@@ -56,6 +56,13 @@ CREATE OR REPLACE FUNCTION increase_post_likes()
     $$
     LANGUAGE PLPGSQL
 
+CREATE OR REPLACE TRIGGER like_post
+    AFTER INSERT 
+    ON likes
+    FOR EACH ROW
+    EXECUTE FUNCTION increase_post_likes();
+
+-- al eliminar un registro a la tabla likes, se decrementa post_likes en el post correspondiente
 CREATE OR REPLACE FUNCTION decrease_post_likes() 
     RETURNS TRIGGER 
     AS 
@@ -69,16 +76,54 @@ CREATE OR REPLACE FUNCTION decrease_post_likes()
     $$
     LANGUAGE PLPGSQL
 
-CREATE OR REPLACE TRIGGER like_post
-    AFTER INSERT 
-    ON likes
-    FOR EACH ROW
-    EXECUTE FUNCTION increase_post_likes();
-
 CREATE OR REPLACE TRIGGER unlike_post
     AFTER DELETE 
     ON likes
     FOR EACH ROW
     EXECUTE FUNCTION decrease_post_likes();
 
--- 
+-- al agregar un registro a la tabla follows, se incrementa el valor de user_followers en el registro del usuario que esta siendo seguido y se incrementa el valor de user_followings en el registro del usuario que esta siguiendo
+CREATE OR REPLACE FUNCTION increase_user_followers() 
+    RETURNS TRIGGER 
+    AS 
+    $$
+    BEGIN
+        UPDATE users
+        SET user_followers = user_followers + 1
+        WHERE user_id = NEW.user_following;
+        UPDATE users
+        SET user_followings = user_followings + 1
+        WHERE user_id = NEW.user_follower;
+        RETURN NEW;
+    END
+    $$
+    LANGUAGE PLPGSQL
+
+CREATE OR REPLACE TRIGGER follow_user
+    AFTER INSERT 
+    ON follows
+    FOR EACH ROW
+    EXECUTE FUNCTION increase_user_followers();
+
+-- al eliminar un registro de la tabla follows, se decrementa el valor de user_followers en el registro del usuario al cual se dejo de seguir y se decrementa el valor de user_followings en el registro del usuario que que dejo de seguir
+CREATE OR REPLACE FUNCTION decrease_user_followers() 
+    RETURNS TRIGGER 
+    AS 
+    $$
+    BEGIN
+        UPDATE users
+        SET user_followers = user_followers - 1
+        WHERE user_id = OLD.user_following;
+        UPDATE users
+        SET user_followings = user_followings - 1
+        WHERE user_id = OLD.user_follower;
+        RETURN OLD;
+    END
+    $$
+    LANGUAGE PLPGSQL
+
+CREATE OR REPLACE TRIGGER unfollow_user
+    AFTER DELETE 
+    ON follows
+    FOR EACH ROW
+    EXECUTE FUNCTION decrease_user_followers();
