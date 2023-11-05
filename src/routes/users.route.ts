@@ -1,5 +1,5 @@
 import { Router } from "express"
-import { getAllUsers, getAuthUserId, getUserById, getUserFollowers as getUserF, getUserTweets, removeUser, updateUser, getUserFollowing } from '../controllers/users.controller'
+import { getAllUsers, getAuthUserId, getUserById, getUserFollowers, getUserTweets, removeUser, updateUser, getUserFollowing } from '../controllers/users.controller'
 import { authentication } from "../middlewares/auth"
 
 const router = Router()
@@ -17,7 +17,7 @@ router.route('/:id')
     
 router.get('/:id/tweets', getUserTweets)
 
-router.get('/:id/followers', getUserF)
+router.get('/:id/followers', getUserFollowers)
 
 router.get('/:id/followings', getUserFollowing)
 
