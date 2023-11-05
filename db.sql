@@ -6,6 +6,8 @@ CREATE TABLE IF NOT EXISTS users (
     last_name VARCHAR (30) NOT NULL,
     followers_count INTEGER NOT NULL DEFAULT 0,
     biography TEXT NOT NULL,
+    user_followers INTEGER NOT NULL DEFAULT 0,
+    user_followings INTEGER NOT NULL DEFAULT 0,
     password TEX NOT NULL,
     PRIMARY KEY (user_id)
 );
@@ -79,4 +81,4 @@ CREATE OR REPLACE TRIGGER unlike_post
     FOR EACH ROW
     EXECUTE FUNCTION decrease_post_likes();
 
-    --
+-- 
