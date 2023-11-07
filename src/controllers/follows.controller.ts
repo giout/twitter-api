@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express"
 import CustomError from "../utils/CustomError"
-import { userIsAuth } from "../utils/users"
+import { userIsAuth, userExists } from "../utils/users"
 import { createFollow, deleteFollow, findFollow } from "../services/follows.service"
 
 export const handleFollow = async (req: Request, res: Response, next: NextFunction) => {
@@ -9,6 +9,10 @@ export const handleFollow = async (req: Request, res: Response, next: NextFuncti
 
         if (!(user_follower && user_following))
             throw new CustomError('Faltan campos por enviar', 400)
+
+        
+        await userExists(user_follower)
+        await userExists(user_following)
 
         // se comprueba que el usuario que quiere seguir sea el autenticado
         userIsAuth(req, user_follower)

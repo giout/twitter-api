@@ -66,25 +66,35 @@ export const removeTweet = async (req: Request, res: Response, next: NextFunctio
     }
 }
 
-// paginacion
 export const getCommentsByTweet = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { id } = req.params
 
+        let offset, limit
+
+        // paginacion
+        offset = <string> req.query.offset || null
+        limit = <string> req.query.limit || null
+
         await tweetExists(id)
 
-        const comments = await findCommentsByTweet(id)
+        const comments = await findCommentsByTweet(id, offset, limit)
         res.status(200).json(comments)
     } catch(e) {
         next(e)
     }
 }
 
-// paginacion
 // filtrado
 export const getFeed = async (req: Request, res: Response, next: NextFunction) => {
     try {   
-        const tweets = await findAllTweets()
+        let offset, limit
+
+        // paginacion
+        offset = <string> req.query.offset || null
+        limit = <string> req.query.limit || null
+
+        const tweets = await findAllTweets(offset, limit)
         res.status(200).json(tweets)
     } catch(e) {
         next(e)

@@ -1,7 +1,7 @@
 const sql = {
-    selectAll: 'SELECT * FROM posts WHERE comment_to IS NULL',
+    selectAll: 'SELECT * FROM posts WHERE comment_to IS NULL ORDER BY creation_date DESC OFFSET $1 LIMIT $2',
     selectAllBy: {
-        user: 'SELECT * FROM posts WHERE user_id=$1 AND comment_to IS NULL',
+        user: 'SELECT * FROM posts WHERE user_id=$1 AND comment_to IS NULL OFFSET $2 LIMIT $3',
         pk: 'SELECT * FROM posts WHERE post_id=$1 AND comment_to IS NULL'
     },
 

@@ -1,10 +1,10 @@
 import pool from "../config/database"
 import sql from "./queries/tweets.query"
 
-export const findTweetsByUser = async (userId: string) => {
+export const findTweetsByUser = async (userId: string, offset: string|null, limit: string|null) => {
     const sentence = sql.selectAllBy.user
 
-    const tweets = await pool.query(sentence, [userId])
+    const tweets = await pool.query(sentence, [userId, offset, limit])
 
     return tweets.rows
 }
@@ -37,7 +37,7 @@ export const deleteTweetByPk = async (id: string) => {
     await pool.query(sql.delete, [id])
 }
 
-export const findAllTweets = async () => {
-    const tweets = await pool.query(sql.selectAll)
+export const findAllTweets = async (offset: string|null, limit: string|null) => {
+    const tweets = await pool.query(sql.selectAll, [offset, limit])
     return tweets.rows
 }

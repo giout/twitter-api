@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS users (
     biography TEXT NOT NULL,
     user_followers INTEGER NOT NULL DEFAULT 0,
     user_followings INTEGER NOT NULL DEFAULT 0,
+    creation_date TIMESTAMP NOT NULL DEFAULT NOW(),
     password TEXT NOT NULL,
     PRIMARY KEY (user_id)
 );
@@ -15,6 +16,7 @@ CREATE TABLE IF NOT EXISTS users (
 CREATE TABLE IF NOT EXISTS follows (
     user_follower INTEGER,
     user_following INTEGER,
+    creation_date TIMESTAMP NOT NULL DEFAULT NOW(),
     PRIMARY KEY(user_follower, user_following),
     FOREIGN KEY (user_follower) REFERENCES users (user_id),
     FOREIGN KEY (user_following) REFERENCES users (user_id),
@@ -38,6 +40,7 @@ CREATE TABLE IF NOT EXISTS posts (
 CREATE TABLE IF NOT EXISTS likes (
     post_id INTEGER,
     user_id INTEGER,
+    creation_date TIMESTAMP NOT NULL DEFAULT NOW(),
     PRIMARY KEY(post_id, user_id),
     FOREIGN KEY (post_id) REFERENCES posts (post_id),
     FOREIGN KEY (user_id) REFERENCES users (user_id)

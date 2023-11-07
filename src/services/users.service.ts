@@ -1,10 +1,10 @@
 import pool from "../config/database"
 import sql from "./queries/users.query"
 
-export const findUsers  = async (search: string = '') => {
+export const findUsers  = async (search: string, offset: string | null, limit: string | null) => {
     let sentence = sql.selectAllBy.aliasOrName
 
-    const users = await pool.query(sentence, [search])
+    const users = await pool.query(sentence, [search, offset, limit])
     
     return users.rows
 }
@@ -68,12 +68,12 @@ export const updateUserByPk = async(id: string, entry: any) => {
     return findUserByPk(id)
 }
 
-export const findFollowersByPk = async (user_following: string) => {
-    const followers = await pool.query(sql.selectFollowers, [user_following])
+export const findFollowersByPk = async (user_following: string, offset: string|null, limit: string|null) => {
+    const followers = await pool.query(sql.selectFollowers, [user_following, offset, limit])
     return followers.rows
  }
  
- export const findFollowingsByPk = async (user_follower: string) => {
-     const followings = await pool.query(sql.selectFollowings, [user_follower])
+ export const findFollowingsByPk = async (user_follower: string, offset: string|null, limit: string|null) => {
+     const followings = await pool.query(sql.selectFollowings, [user_follower, offset, limit])
      return followings.rows
  }

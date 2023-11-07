@@ -26,7 +26,7 @@ export const deleteCommentByPk = async (id: string) => {
     await pool.query(sql.delete, [id])
 }
 
-export const findCommentsByTweet = async (tweet_id: string) => {
-    const comments = await pool.query(sql.selectAllBy.tweet, [tweet_id])
+export const findCommentsByTweet = async (tweet_id: string, offset: string|null, limit: string|null) => {
+    const comments = await pool.query(sql.selectAllBy.tweet, [tweet_id, offset, limit])
     return comments.rows
 }

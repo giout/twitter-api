@@ -6,11 +6,19 @@ import { findTweetsByUser } from "../services/tweets.service"
 import { userExists, userIsAuth } from "../utils/users"
 import { findFollowersByPk, findFollowingsByPk } from "../services/users.service"
 
-// falta paginacion
 export const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const param = <string> req.query.search
-        const users = await findUsers(param)
+        let search, offset, limit
+
+        // filtrado
+        search = <string> req.query.search || '' 
+
+        // paginacion
+        offset = <string> req.query.offset || null
+        limit = <string> req.query.limit || null
+
+        const users = await findUsers(search, offset, limit)
+
         res.status(200).json(users)
     } catch(e) {
         next(e)
@@ -21,7 +29,7 @@ export const getAuthUserId = async (req: Request, res: Response, next: NextFunct
     try {
         // obtiene payload del token
         const { user } = (req as AuthRequest)
-        res.status(200).json({ id: user.id })
+        res.status(200).json({ user_id: user.id })
     } catch(e) {
         next(e)
     }
@@ -71,13 +79,17 @@ export const removeUser = async (req: Request, res: Response, next: NextFunction
 }
 
 // filtrado
-// paginacion
 export const getUserTweets = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { id } = req.params
+        let offset, limit
+
+        // paginacion
+        offset = <string> req.query.offset || null
+        limit = <string> req.query.limit || null
 
         await userExists(id)
-        const tweets = await findTweetsByUser(id)
+        const tweets = await findTweetsByUser(id, offset, limit)
 
         res.status(200).json(tweets)
     } catch(e) {
@@ -86,14 +98,19 @@ export const getUserTweets = async (req: Request, res: Response, next: NextFunct
 }
 
 
-// paginacion
 // filtrado
 export const getUserFollowers = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { id } = req.params
+        let offset, limit
+
+        // paginacion
+        offset = <string> req.query.offset || null
+        limit = <string> req.query.limit || null
+
         await userExists(id)
 
-        const followers = await findFollowersByPk(id)
+        const followers = await findFollowersByPk(id, offset, limit)
 
         res.status(200).json(followers)
     } catch(e) {
@@ -101,14 +118,19 @@ export const getUserFollowers = async (req: Request, res: Response, next: NextFu
     }
 }
 
-// paginacion
 // filtrado
 export const getUserFollowing = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { id } = req.params
+        let offset, limit
+
+        // paginacion
+        offset = <string> req.query.offset || null
+        limit = <string> req.query.limit || null
+
         await userExists(id)
 
-        const followings = await findFollowingsByPk(id)
+        const followings = await findFollowingsByPk(id, offset, limit)
 
         res.status(200).json(followings)
     } catch(e) {
