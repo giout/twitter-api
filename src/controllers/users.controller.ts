@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express"
 import { deleteUser, findUsers, updateUserByPk } from "../services/users.service"
 import { AuthRequest } from "../types/auth"
 import { encrypt } from "../utils/bcrypt"
-import { findTweetByPk, findTweetsByUser } from "../services/tweets.service"
+import { findTweetsByUser } from "../services/tweets.service"
 import { userExists, userIsAuth } from "../utils/users"
 import { findFollowersByPk, findFollowingsByPk } from "../services/users.service"
 

@@ -66,6 +66,7 @@ export const removeTweet = async (req: Request, res: Response, next: NextFunctio
     }
 }
 
+// paginacion
 export const getCommentsByTweet = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { id } = req.params
