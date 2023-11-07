@@ -1,7 +1,18 @@
 const sql = {
-    selectAll: 'SELECT * FROM posts WHERE comment_to IS NULL ORDER BY creation_date DESC OFFSET $1 LIMIT $2',
+    selectAll: {
+        lessPopular: 'SELECT * FROM posts WHERE comment_to IS NULL ORDER BY post_likes ASC OFFSET $1 LIMIT $2',
+        popular: 'SELECT * FROM posts WHERE comment_to IS NULL ORDER BY post_likes DESC OFFSET $1 LIMIT $2',
+        oldest: 'SELECT * FROM posts WHERE comment_to IS NULL ORDER BY creation_date ASC OFFSET $1 LIMIT $2',
+        new: 'SELECT * FROM posts WHERE comment_to IS NULL ORDER BY creation_date DESC OFFSET $1 LIMIT $2'
+    },
+
     selectAllBy: {
-        user: 'SELECT * FROM posts WHERE user_id=$1 AND comment_to IS NULL OFFSET $2 LIMIT $3',
+        user: {
+            lessPopular: 'SELECT * FROM posts WHERE comment_to IS NULL AND user_id=$1 ORDER BY post_likes ASC OFFSET $2 LIMIT $3',
+            popular: 'SELECT * FROM posts WHERE comment_to IS NULL AND user_id=$1 ORDER BY post_likes DESC OFFSET $2 LIMIT $3',
+            oldest: 'SELECT * FROM posts WHERE comment_to IS NULL AND user_id=$1 ORDER BY creation_date ASC OFFSET $2 LIMIT $3',
+            new: 'SELECT * FROM posts WHERE comment_to IS NULL AND user_id=$1 ORDER BY creation_date DESC OFFSET $2 LIMIT $3'            
+        },
         pk: 'SELECT * FROM posts WHERE post_id=$1 AND comment_to IS NULL'
     },
 

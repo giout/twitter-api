@@ -68,12 +68,12 @@ export const updateUserByPk = async(id: string, entry: any) => {
     return findUserByPk(id)
 }
 
-export const findFollowersByPk = async (user_following: string, offset: string|null, limit: string|null) => {
-    const followers = await pool.query(sql.selectFollowers, [user_following, offset, limit])
+export const findFollowersByPk = async (user_following: string, search: string, offset: string|null, limit: string|null) => {
+    const followers = await pool.query(sql.selectFollowers, [user_following, search, offset, limit])
     return followers.rows
  }
  
- export const findFollowingsByPk = async (user_follower: string, offset: string|null, limit: string|null) => {
-     const followings = await pool.query(sql.selectFollowings, [user_follower, offset, limit])
+ export const findFollowingsByPk = async (user_follower: string, search: string, offset: string|null, limit: string|null) => {
+     const followings = await pool.query(sql.selectFollowings, [user_follower, search, offset, limit])
      return followings.rows
  }

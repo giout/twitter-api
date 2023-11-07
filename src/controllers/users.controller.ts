@@ -82,14 +82,17 @@ export const removeUser = async (req: Request, res: Response, next: NextFunction
 export const getUserTweets = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { id } = req.params
-        let offset, limit
+        let order, offset, limit
+
+        // ordenamiento
+        order = <string> req.query.order || ''
 
         // paginacion
         offset = <string> req.query.offset || null
         limit = <string> req.query.limit || null
 
         await userExists(id)
-        const tweets = await findTweetsByUser(id, offset, limit)
+        const tweets = await findTweetsByUser(id, order, offset, limit)
 
         res.status(200).json(tweets)
     } catch(e) {
@@ -97,12 +100,13 @@ export const getUserTweets = async (req: Request, res: Response, next: NextFunct
     }
 }
 
-
-// filtrado
 export const getUserFollowers = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { id } = req.params
-        let offset, limit
+        let search, offset, limit
+
+        // filtrado
+        search = <string> req.query.search || ''
 
         // paginacion
         offset = <string> req.query.offset || null
@@ -110,7 +114,7 @@ export const getUserFollowers = async (req: Request, res: Response, next: NextFu
 
         await userExists(id)
 
-        const followers = await findFollowersByPk(id, offset, limit)
+        const followers = await findFollowersByPk(id, search, offset, limit)
 
         res.status(200).json(followers)
     } catch(e) {
@@ -118,11 +122,13 @@ export const getUserFollowers = async (req: Request, res: Response, next: NextFu
     }
 }
 
-// filtrado
 export const getUserFollowing = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { id } = req.params
-        let offset, limit
+        let search, offset, limit
+
+        // filtrado
+        search = <string> req.query.search || ''
 
         // paginacion
         offset = <string> req.query.offset || null
@@ -130,7 +136,7 @@ export const getUserFollowing = async (req: Request, res: Response, next: NextFu
 
         await userExists(id)
 
-        const followings = await findFollowingsByPk(id, offset, limit)
+        const followings = await findFollowingsByPk(id, search, offset, limit)
 
         res.status(200).json(followings)
     } catch(e) {
