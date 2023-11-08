@@ -1,16 +1,7 @@
-<h1>Express/Typescript project boilerplate.</h1>
-<h3>Dependencies</h3>
-<p>
-cors -> ^2.8.5<br>
-dotenv -> ^16.3.1<br>
-express -> ^4.18.2<br>
-</p>
-<h3>Dev dependencies</h3>
-<p>
-@types/cors -> ^2.8.14<br>
-@types/dotenv -> ^8.2.0<br>
-@types/express -> ^4.17.18<br>
-nodemon -> ^3.0.1<br>
-ts-node -> ^10.9.1<br>
-typescript -> ^5.2.2<br>
-</p>
+<h1>REST API para clon de Twitter</h1>
+<h3>https://twitter-api-awdc.onrender.com</h3>
+<br>
+<h2>Variables de entorno</h2>
+<p>TOKEN_SIGNATURE -> firma del token (JWT)</p>
+<p>PORT -> puerto a traves del cual escucha el servidor</p>
+<p>DB_URI -> uri de la base de datos</p>
