@@ -12,30 +12,27 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.handleFollow = void 0;
+exports.handleLike = void 0;
+const posts_1 = require("../utils/posts");
 const CustomError_1 = __importDefault(require("../utils/CustomError"));
-const users_1 = require("../utils/users");
-const follows_service_1 = require("../services/follows.service");
-const handleFollow = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const likes_service_1 = require("../services/likes.service");
+const handleLike = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { user_follower, user_following } = req.body;
-        if (!(user_follower && user_following))
+        const { user_id, post_id } = req.body;
+        if (!(user_id && post_id))
             throw new CustomError_1.default('Faltan campos por enviar', 400);
-        yield (0, users_1.userExists)(user_follower);
-        yield (0, users_1.userExists)(user_following);
-        // se comprueba que el usuario que quiere seguir sea el autenticado
-        (0, users_1.userIsAuth)(req, user_follower);
+        yield (0, posts_1.postExists)(post_id);
         // si ya el post tiene like, se elimina, y si no existe, se crea
-        const like = yield (0, follows_service_1.findFollow)(user_follower, user_following);
+        const like = yield (0, likes_service_1.findLike)(user_id, post_id);
         if (like) {
-            yield (0, follows_service_1.deleteFollow)(user_follower, user_following);
-            return res.status(200).json({ msg: 'Se ha dejado de seguir al usuario' });
+            yield (0, likes_service_1.deleteLike)(user_id, post_id);
+            return res.status(200).json({ msg: 'Se ha eliminado el like de la publicacion' });
         }
-        yield (0, follows_service_1.createFollow)(user_follower, user_following);
-        res.status(201).json({ msg: 'Se ha seguido al usuario' });
+        yield (0, likes_service_1.createLike)(user_id, post_id);
+        res.status(201).json({ msg: 'Se ha agregado un like a la publicacion' });
     }
     catch (e) {
         next(e);
     }
 });
-exports.handleFollow = handleFollow;
+exports.handleLike = handleLike;
