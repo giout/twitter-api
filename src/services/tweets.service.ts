@@ -1,5 +1,5 @@
 import pool from "../config/database"
-import sql from "./queries/tweets.query"
+import sql from "../queries/tweets.query"
 
 export const findTweetsByUser = async (userId: string, order: string, offset: string|null, limit: string|null) => {
     // por defecto, los tweets se ordenan por mas reciente

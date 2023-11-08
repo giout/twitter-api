@@ -1,5 +1,5 @@
 import pool from "../config/database"
-import sql from './queries/follows.query'
+import sql from '../queries/follows.query'
 
 export const findFollow = async (user_follower: string , user_following: string) => {
     const likes = await pool.query(sql.selectAllBy.followerAndFollowing, [user_follower, user_following])

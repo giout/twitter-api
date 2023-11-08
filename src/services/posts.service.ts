@@ -1,5 +1,5 @@
 import pool from "../config/database"
-import sql from "./queries/posts.query"
+import sql from "../queries/posts.query"
 
 
 export const findPostByPk = async (id: string) => {

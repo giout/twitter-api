@@ -1,5 +1,5 @@
 import pool from "../config/database"
-import sql from "./queries/users.query"
+import sql from "../queries/users.query"
 
 export const findUsers  = async (search: string, offset: string | null, limit: string | null) => {
     let sentence = sql.selectAllBy.aliasOrName

@@ -1,5 +1,5 @@
 import pool from "../config/database"
-import sql from './queries/likes.query'
+import sql from '../queries/likes.query'
 
 export const findLike = async (user_id: string , post_id: string) => {
     const likes = await pool.query(sql.selectAllBy.userAndPost, [post_id, user_id])

@@ -1,5 +1,5 @@
 import pool from "../config/database"
-import sql from "./queries/comments.query"
+import sql from "../queries/comments.query"
 
 export const findCommentByPk = async (id: string) => {
     const comment = await pool.query(sql.selectAllBy.pk, [id])
