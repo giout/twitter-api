@@ -28,7 +28,10 @@ export const getAllUsers = async (req: Request, res: Response, next: NextFunctio
 export const getAuthUserId = async (req: Request, res: Response, next: NextFunction) => {
     try {
         // obtiene payload del token
-        const { user } = (req as AuthRequest)
+        const { user } = req as AuthRequest
+
+        await userExists(user.id)
+
         res.status(200).json({ user_id: user.id })
     } catch(e) {
         next(e)
