@@ -15,6 +15,7 @@ const bcrypt_1 = require("../utils/bcrypt");
 const tweets_service_1 = require("../services/tweets.service");
 const users_1 = require("../utils/users");
 const users_service_2 = require("../services/users.service");
+const posts_1 = require("../utils/posts");
 const getAllUsers = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         let search, offset, limit;
@@ -83,7 +84,6 @@ const removeUser = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
     }
 });
 exports.removeUser = removeUser;
-// filtrado
 const getUserTweets = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
@@ -95,6 +95,7 @@ const getUserTweets = (req, res, next) => __awaiter(void 0, void 0, void 0, func
         limit = req.query.limit || null;
         yield (0, users_1.userExists)(id);
         const tweets = yield (0, tweets_service_1.findTweetsByUser)(id, order, offset, limit);
+        yield (0, posts_1.setLikes)(req, tweets);
         res.status(200).json(tweets);
     }
     catch (e) {

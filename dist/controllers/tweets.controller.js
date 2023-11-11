@@ -38,6 +38,7 @@ const getTweetById = (req, res, next) => __awaiter(void 0, void 0, void 0, funct
     try {
         const { id } = req.params;
         const tweet = yield (0, tweets_1.tweetExists)(id);
+        yield (0, posts_1.setLikes)(req, [tweet]);
         res.status(200).json(tweet);
     }
     catch (e) {
@@ -81,6 +82,7 @@ const getCommentsByTweet = (req, res, next) => __awaiter(void 0, void 0, void 0,
         limit = req.query.limit || null;
         yield (0, tweets_1.tweetExists)(id);
         const comments = yield (0, comments_service_1.findCommentsByTweet)(id, offset, limit);
+        yield (0, posts_1.setLikes)(req, comments);
         res.status(200).json(comments);
     }
     catch (e) {
@@ -97,6 +99,7 @@ const getFeed = (req, res, next) => __awaiter(void 0, void 0, void 0, function* 
         offset = req.query.offset || null;
         limit = req.query.limit || null;
         const tweets = yield (0, tweets_service_1.findAllTweets)(order, offset, limit);
+        yield (0, posts_1.setLikes)(req, tweets);
         res.status(200).json(tweets);
     }
     catch (e) {

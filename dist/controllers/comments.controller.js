@@ -23,6 +23,7 @@ const getCommentById = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
     try {
         const { id } = req.params;
         const comment = yield (0, comments_1.commentExists)(id);
+        yield (0, posts_1.setLikes)(req, [comment]);
         res.status(200).json(comment);
     }
     catch (e) {
