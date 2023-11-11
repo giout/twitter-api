@@ -4,12 +4,15 @@ import CustomError from "../utils/CustomError"
 import { userExists, userIsAuth } from "../utils/users"
 import { tweetExists } from "../utils/tweets"
 import { commentExists } from "../utils/comments"
-import { postBelongsToUser } from "../utils/posts"
+import { postBelongsToUser, setLikes } from "../utils/posts"
 
 export const getCommentById = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { id } = req.params
         const comment = await commentExists(id)
+
+        await setLikes(req, [comment])
+
         res.status(200).json(comment)
     } catch (e) {
         next(e)

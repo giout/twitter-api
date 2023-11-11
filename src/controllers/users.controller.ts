@@ -5,6 +5,7 @@ import { encrypt } from "../utils/bcrypt"
 import { findTweetsByUser } from "../services/tweets.service"
 import { userExists, userIsAuth } from "../utils/users"
 import { findFollowersByPk, findFollowingsByPk } from "../services/users.service"
+import { setLikes } from "../utils/posts"
 
 export const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -81,7 +82,6 @@ export const removeUser = async (req: Request, res: Response, next: NextFunction
     }
 }
 
-// filtrado
 export const getUserTweets = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { id } = req.params
@@ -96,6 +96,8 @@ export const getUserTweets = async (req: Request, res: Response, next: NextFunct
 
         await userExists(id)
         const tweets = await findTweetsByUser(id, order, offset, limit)
+
+        await setLikes(req, tweets)
 
         res.status(200).json(tweets)
     } catch(e) {

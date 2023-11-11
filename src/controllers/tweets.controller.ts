@@ -3,7 +3,7 @@ import CustomError from "../utils/CustomError"
 import { userExists, userIsAuth } from "../utils/users"
 import { createTweetByUser, deleteTweetByPk, findAllTweets, updateTweetByPk } from "../services/tweets.service"
 import { tweetExists } from "../utils/tweets"
-import { postBelongsToUser } from "../utils/posts"
+import { postBelongsToUser, setLikes } from "../utils/posts"
 import { findCommentsByTweet } from "../services/comments.service"
 
 export const createTweet = async (req: Request, res: Response, next: NextFunction) => {
@@ -28,6 +28,9 @@ export const getTweetById = async (req: Request, res: Response, next: NextFuncti
     try {
         const { id } = req.params
         const tweet = await tweetExists(id)
+
+        await setLikes(req, [tweet])
+        
         res.status(200).json(tweet)     
     } catch(e) {
         next(e)
@@ -79,6 +82,9 @@ export const getCommentsByTweet = async (req: Request, res: Response, next: Next
         await tweetExists(id)
 
         const comments = await findCommentsByTweet(id, offset, limit)
+        
+        await setLikes(req, comments)
+
         res.status(200).json(comments)
     } catch(e) {
         next(e)
@@ -97,6 +103,9 @@ export const getFeed = async (req: Request, res: Response, next: NextFunction) =
         limit = <string> req.query.limit || null
 
         const tweets = await findAllTweets(order, offset, limit)
+
+        await setLikes(req, tweets)
+
         res.status(200).json(tweets)
     } catch(e) {
         next(e)
