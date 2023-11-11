@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteLike = exports.createLike = exports.findLike = void 0;
 const database_1 = __importDefault(require("../config/database"));
-const likes_query_1 = __importDefault(require("./queries/likes.query"));
+const likes_query_1 = __importDefault(require("../queries/likes.query"));
 const findLike = (user_id, post_id) => __awaiter(void 0, void 0, void 0, function* () {
     const likes = yield database_1.default.query(likes_query_1.default.selectAllBy.userAndPost, [post_id, user_id]);
     if (likes.rows[0])

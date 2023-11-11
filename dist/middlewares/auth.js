@@ -13,13 +13,13 @@ const authentication = (req, res, next) => {
     try {
         if (!auth.toLowerCase().startsWith('bearer') &&
             auth.split(' ').length !== 2) {
-            throw new CustomError_1.default('Bearer token invalido', 400);
+            throw new CustomError_1.default('Invalid bearer token.', 400);
         }
         const token = auth.split(' ')[1]; // Bearer[0] jf8jf8rf9ff4[1]
         // Verificando que el token sea valido
         jsonwebtoken_1.default.verify(token, signature, (err, decoded) => {
             if (err) {
-                throw new CustomError_1.default('Sesion invalida', 401);
+                throw new CustomError_1.default('Invalid session.', 401);
             }
             // Se agrega una propiedad al objeto request que contendra los datos del token
             req.user = decoded;

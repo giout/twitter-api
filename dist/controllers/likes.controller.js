@@ -20,16 +20,16 @@ const handleLike = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
     try {
         const { user_id, post_id } = req.body;
         if (!(user_id && post_id))
-            throw new CustomError_1.default('Faltan campos por enviar', 400);
+            throw new CustomError_1.default('Data is missing.', 400);
         yield (0, posts_1.postExists)(post_id);
         // si ya el post tiene like, se elimina, y si no existe, se crea
         const like = yield (0, likes_service_1.findLike)(user_id, post_id);
         if (like) {
             yield (0, likes_service_1.deleteLike)(user_id, post_id);
-            return res.status(200).json({ msg: 'Se ha eliminado el like de la publicacion' });
+            return res.status(200).json({ msg: 'Like has been removed from post.' });
         }
         yield (0, likes_service_1.createLike)(user_id, post_id);
-        res.status(201).json({ msg: 'Se ha agregado un like a la publicacion' });
+        res.status(201).json({ msg: 'Like has been added to post.' });
     }
     catch (e) {
         next(e);

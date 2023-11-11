@@ -20,7 +20,7 @@ const handleFollow = (req, res, next) => __awaiter(void 0, void 0, void 0, funct
     try {
         const { user_follower, user_following } = req.body;
         if (!(user_follower && user_following))
-            throw new CustomError_1.default('Faltan campos por enviar', 400);
+            throw new CustomError_1.default('Data is missing.', 400);
         yield (0, users_1.userExists)(user_follower);
         yield (0, users_1.userExists)(user_following);
         // se comprueba que el usuario que quiere seguir sea el autenticado
@@ -29,10 +29,10 @@ const handleFollow = (req, res, next) => __awaiter(void 0, void 0, void 0, funct
         const like = yield (0, follows_service_1.findFollow)(user_follower, user_following);
         if (like) {
             yield (0, follows_service_1.deleteFollow)(user_follower, user_following);
-            return res.status(200).json({ msg: 'Se ha dejado de seguir al usuario' });
+            return res.status(200).json({ msg: 'User unfollowed.' });
         }
         yield (0, follows_service_1.createFollow)(user_follower, user_following);
-        res.status(201).json({ msg: 'Se ha seguido al usuario' });
+        res.status(201).json({ msg: 'User followed.' });
     }
     catch (e) {
         next(e);

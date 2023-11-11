@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.findAllTweets = exports.deleteTweetByPk = exports.updateTweetByPk = exports.createTweetByUser = exports.findTweetByPk = exports.findTweetsByUser = void 0;
 const database_1 = __importDefault(require("../config/database"));
-const tweets_query_1 = __importDefault(require("./queries/tweets.query"));
+const tweets_query_1 = __importDefault(require("../queries/tweets.query"));
 const findTweetsByUser = (userId, order, offset, limit) => __awaiter(void 0, void 0, void 0, function* () {
     // por defecto, los tweets se ordenan por mas reciente
     let sentence = tweets_query_1.default.selectAllBy.user.new;

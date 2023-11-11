@@ -35,6 +35,7 @@ const getAuthUserId = (req, res, next) => __awaiter(void 0, void 0, void 0, func
     try {
         // obtiene payload del token
         const { user } = req;
+        yield (0, users_1.userExists)(user.id);
         res.status(200).json({ user_id: user.id });
     }
     catch (e) {

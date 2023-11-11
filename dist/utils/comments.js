@@ -18,7 +18,7 @@ const CustomError_1 = __importDefault(require("./CustomError"));
 const commentExists = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const comment = yield (0, comments_service_1.findCommentByPk)(id);
     if (!comment)
-        throw new CustomError_1.default('El comentario no existe', 400);
+        throw new CustomError_1.default('Comment does not exist.', 400);
     return comment;
 });
 exports.commentExists = commentExists;

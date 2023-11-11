@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteFollow = exports.createFollow = exports.findFollow = void 0;
 const database_1 = __importDefault(require("../config/database"));
-const follows_query_1 = __importDefault(require("./queries/follows.query"));
+const follows_query_1 = __importDefault(require("../queries/follows.query"));
 const findFollow = (user_follower, user_following) => __awaiter(void 0, void 0, void 0, function* () {
     const likes = yield database_1.default.query(follows_query_1.default.selectAllBy.followerAndFollowing, [user_follower, user_following]);
     if (likes.rows[0])

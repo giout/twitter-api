@@ -23,13 +23,13 @@ const signUp = (req, res, next) => __awaiter(void 0, void 0, void 0, function* (
         let { alias, first_name, last_name, biography, password } = req.body;
         const user = yield (0, users_service_1.findUserByAlias)(alias);
         if (user)
-            throw new CustomError_1.default('El usuario ya existe', 400);
+            throw new CustomError_1.default('User already exists.', 400);
         // validacion de campos vacios
         if (!(alias && first_name && last_name && biography && password))
-            throw new CustomError_1.default('Faltan campos por llenar', 400);
+            throw new CustomError_1.default('Data is missing.', 400);
         // validacion de clave
         if (!(0, validation_1.validatePassword)(password))
-            throw new CustomError_1.default('La clave debe contener 8 caracteres minimo, una letra y 1 numero', 400);
+            throw new CustomError_1.default('Password must contain at least 8 characters, letters and numbers.', 400);
         password = (0, bcrypt_1.encrypt)(password); // encriptacion de clave
         const createdUser = yield (0, users_service_1.createUser)(alias, first_name, last_name, biography, password);
         res.status(201).json(createdUser);
@@ -45,11 +45,11 @@ const logIn = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
         // verificar si usuario existe
         const user = yield (0, users_service_1.findUserByAlias)(alias);
         if (!user)
-            throw new CustomError_1.default('El usuario no existe', 400);
+            throw new CustomError_1.default('User does not exist.', 400);
         // verificar si la clave concuerda
         const equals = (0, bcrypt_1.compareCrypted)(password, user.password);
         if (!equals)
-            throw new CustomError_1.default('La clave es inválida', 400);
+            throw new CustomError_1.default('Password is invalid.', 400);
         // crear y enviar token de autenticacion    
         const signature = process.env.TOKEN_SIGNATURE;
         const payload = { id: user.user_id }; // datos que contendra el token

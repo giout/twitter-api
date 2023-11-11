@@ -23,7 +23,7 @@ const createTweet = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
     try {
         const { user_id, tweet_content } = req.body;
         if (!(user_id && tweet_content))
-            throw new CustomError_1.default('Faltan campos por llenar', 400);
+            throw new CustomError_1.default('Data is missing.', 400);
         yield (0, users_1.userExists)(user_id);
         (0, users_1.userIsAuth)(req, user_id);
         const createdTweet = yield (0, tweets_service_1.createTweetByUser)(user_id, tweet_content);

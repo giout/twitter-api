@@ -20,7 +20,7 @@ const users_1 = require("./users");
 const postExists = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const post = yield (0, posts_service_1.findPostByPk)(id);
     if (!post)
-        throw new CustomError_1.default('La publicacion no existe', 400);
+        throw new CustomError_1.default('Post does not exist.', 400);
 });
 exports.postExists = postExists;
 // verifica si el post pertenence al usuario que esta autenticado en la api

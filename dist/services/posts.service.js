@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.findPostByPk = void 0;
 const database_1 = __importDefault(require("../config/database"));
-const posts_query_1 = __importDefault(require("./queries/posts.query"));
+const posts_query_1 = __importDefault(require("../queries/posts.query"));
 const findPostByPk = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const posts = yield database_1.default.query(posts_query_1.default.selectAllBy.pk, [id]);
     if (posts.rows[0])

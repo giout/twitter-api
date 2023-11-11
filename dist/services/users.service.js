@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.findFollowingsByPk = exports.findFollowersByPk = exports.updateUserByPk = exports.deleteUser = exports.createUser = exports.findUserByPk = exports.findUserByAlias = exports.findUsers = void 0;
 const database_1 = __importDefault(require("../config/database"));
-const users_query_1 = __importDefault(require("./queries/users.query"));
+const users_query_1 = __importDefault(require("../queries/users.query"));
 const findUsers = (search, offset, limit) => __awaiter(void 0, void 0, void 0, function* () {
     let sentence = users_query_1.default.selectAllBy.aliasOrName;
     const users = yield database_1.default.query(sentence, [search, offset, limit]);
