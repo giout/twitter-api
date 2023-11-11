@@ -12,10 +12,10 @@ const sql = {
     },
     selectAllBy: {
         user: {
-            lessPopular: `SELECT ${data} FROM ${joinPostUser} WHERE ${isTweet} AND user_id=$1 ORDER BY post_likes ASC OFFSET $2 LIMIT $3`,
-            popular: `SELECT ${data} FROM ${joinPostUser} WHERE ${isTweet} AND user_id=$1 ORDER BY post_likes DESC OFFSET $2 LIMIT $3`,
-            oldest: `SELECT ${data} FROM ${joinPostUser} WHERE ${isTweet} AND user_id=$1 ORDER BY creation_date ASC OFFSET $2 LIMIT $3`,
-            new: `SELECT ${data} FROM ${joinPostUser} WHERE ${isTweet} AND user_id=$1 ORDER BY creation_date DESC OFFSET $2 LIMIT $3`
+            lessPopular: `SELECT ${data} FROM ${joinPostUser} WHERE ${isTweet} AND p.user_id=$1 ORDER BY post_likes ASC OFFSET $2 LIMIT $3`,
+            popular: `SELECT ${data} FROM ${joinPostUser} WHERE ${isTweet} AND p.user_id=$1 ORDER BY post_likes DESC OFFSET $2 LIMIT $3`,
+            oldest: `SELECT ${data} FROM ${joinPostUser} WHERE ${isTweet} AND p.user_id=$1 ORDER BY creation_date ASC OFFSET $2 LIMIT $3`,
+            new: `SELECT ${data} FROM ${joinPostUser} WHERE ${isTweet} AND p.user_id=$1 ORDER BY creation_date DESC OFFSET $2 LIMIT $3`
         },
         pk: `SELECT ${data} FROM ${joinPostUser} WHERE post_id=$1 AND ${isTweet}`
     },

@@ -4,7 +4,7 @@ const isComment = `comment_to IS NOT NULL`
 
 const sql = {
     selectAllBy: {
-        user: `SELECT ${data} FROM ${joinPostUser} WHERE user_id=$1 AND ${isComment} ORDER BY creation_date DESC`,
+        user: `SELECT ${data} FROM ${joinPostUser} WHERE p.user_id=$1 AND ${isComment} ORDER BY creation_date DESC`,
         pk: `SELECT ${data} FROM ${joinPostUser} WHERE post_id=$1 AND ${isComment}`,
         tweet: `SELECT ${data} FROM ${joinPostUser} WHERE comment_to=$1 ORDER BY creation_date DESC OFFSET $2 LIMIT $3`
     },
