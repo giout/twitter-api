@@ -12,7 +12,7 @@ export const authentication = (req: Request, res: Response, next: NextFunction) 
     try {
         if (!auth.toLowerCase().startsWith('bearer') && 
             auth.split(' ').length !== 2) {
-            throw new CustomError('Bearer token invalido', 400)
+            throw new CustomError('Invalid bearer token.', 400)
         }
         
         const token = auth.split(' ')[1] // Bearer[0] jf8jf8rf9ff4[1]
@@ -20,7 +20,7 @@ export const authentication = (req: Request, res: Response, next: NextFunction) 
         // Verificando que el token sea valido
         jwt.verify(token, signature, (err, decoded) => {
             if (err) {
-                throw new CustomError('Sesion invalida', 401)
+                throw new CustomError('Invalid session.', 401)
             }
             // Se agrega una propiedad al objeto request que contendra los datos del token
             (req as AuthRequest).user = <JwtPayload> decoded 

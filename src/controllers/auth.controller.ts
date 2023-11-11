@@ -12,15 +12,15 @@ export const signUp = async (req: Request, res: Response, next: NextFunction) =>
         const user = await findUserByAlias(alias)
 
         if (user)
-            throw new CustomError('El usuario ya existe', 400)
+            throw new CustomError('User already exists.', 400)
 
         // validacion de campos vacios
         if (!(alias && first_name && last_name && biography && password))
-            throw new CustomError('Faltan campos por llenar', 400)
+            throw new CustomError('Data is missing.', 400)
 
         // validacion de clave
         if (!validatePassword(password))
-            throw new CustomError('La clave debe contener 8 caracteres minimo, una letra y 1 numero', 400)
+            throw new CustomError('Password must contain at least 8 characters, letters and numbers.', 400)
 
         password = encrypt(password) // encriptacion de clave
 
@@ -40,13 +40,13 @@ export const logIn = async (req: Request, res: Response, next: NextFunction) => 
         const user = await findUserByAlias(alias)
 
         if (!user)
-            throw new CustomError('El usuario no existe', 400)
+            throw new CustomError('User does not exist.', 400)
         
         // verificar si la clave concuerda
         const equals = compareCrypted(password, user.password)
 
         if (!equals) 
-            throw new CustomError('La clave es inválida', 400)
+            throw new CustomError('Password is invalid.', 400)
 
         // crear y enviar token de autenticacion    
         const signature = <string> process.env.TOKEN_SIGNATURE

@@ -8,7 +8,7 @@ export const handleLike = async (req: Request, res: Response, next: NextFunction
         const { user_id, post_id } = req.body
 
         if (!(user_id && post_id))
-            throw new CustomError('Faltan campos por enviar', 400)
+            throw new CustomError('Data is missing.', 400)
 
         await postExists(post_id)
 
@@ -17,11 +17,11 @@ export const handleLike = async (req: Request, res: Response, next: NextFunction
         
         if (like) {
             await deleteLike(user_id, post_id)
-            return res.status(200).json({ msg: 'Se ha eliminado el like de la publicacion' })
+            return res.status(200).json({ msg: 'Like has been removed from post.' })
         }
 
         await createLike(user_id, post_id)
-        res.status(201).json({ msg: 'Se ha agregado un like a la publicacion' })
+        res.status(201).json({ msg: 'Like has been added to post.' })
     } catch (e) {
         next(e)
     }

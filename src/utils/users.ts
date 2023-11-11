@@ -7,7 +7,7 @@ export const userExists = async (id: string) => {
     const user = await findUserByPk(id)
     
     if (!user)
-        throw new CustomError('El usuario no existe', 400)
+        throw new CustomError('User does not exist.', 400)
 
     return user
 }
@@ -17,5 +17,5 @@ export const userIsAuth = (req: Request, id: string) => {
     const { user } = (req as AuthRequest)
 
     if (user.id != id) 
-        throw new CustomError('No esta permitido crear, actualizar o eliminar datos de un usuario diferente al autenticado', 400)
+        throw new CustomError('It is not allowed to create, update or delete data of a user that is not authenticated.', 400)
 }

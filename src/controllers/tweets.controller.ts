@@ -11,7 +11,7 @@ export const createTweet = async (req: Request, res: Response, next: NextFunctio
         const { user_id, tweet_content } = req.body
 
         if (!(user_id && tweet_content))
-            throw new CustomError('Faltan campos por llenar', 400)
+            throw new CustomError('Data is missing.', 400)
         
         await userExists(user_id)
         userIsAuth(req, user_id)

@@ -4,7 +4,7 @@ import CustomError from "./CustomError"
 export const commentExists = async (id: string) => {
     const comment = await findCommentByPk(id)
     if (!comment)
-        throw new CustomError('El comentario no existe', 400)
+        throw new CustomError('Comment does not exist.', 400)
 
     return comment   
 }

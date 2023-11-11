@@ -8,7 +8,7 @@ export const handleFollow = async (req: Request, res: Response, next: NextFuncti
         const { user_follower, user_following } = req.body
 
         if (!(user_follower && user_following))
-            throw new CustomError('Faltan campos por enviar', 400)
+            throw new CustomError('Data is missing.', 400)
 
         
         await userExists(user_follower)
@@ -22,11 +22,11 @@ export const handleFollow = async (req: Request, res: Response, next: NextFuncti
         
         if (like) {
             await deleteFollow(user_follower, user_following)
-            return res.status(200).json({ msg: 'Se ha dejado de seguir al usuario' })
+            return res.status(200).json({ msg: 'User unfollowed.' })
         }
 
         await createFollow(user_follower, user_following)
-        res.status(201).json({ msg: 'Se ha seguido al usuario' })
+        res.status(201).json({ msg: 'User followed.' })
     } catch (e) {
         next(e)
     }

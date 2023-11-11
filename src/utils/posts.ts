@@ -8,7 +8,7 @@ export const postExists = async (id: string) => {
     const post = await findPostByPk(id)
 
     if (!post)
-        throw new CustomError('La publicacion no existe', 400)
+        throw new CustomError('Post does not exist.', 400)
 }
 
 // verifica si el post pertenence al usuario que esta autenticado en la api
