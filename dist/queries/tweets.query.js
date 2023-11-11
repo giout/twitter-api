@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const data = `u.alias, u.first_name, u.last_name, p.*`;
-const joinPostUser = 'posts as p INNER JOIN users as u ON p.user_id=u.user_id';
-const isTweet = 'comment_to IS NULL';
+const joinPostUser = `posts as p INNER JOIN users as u ON p.user_id=u.user_id`;
+const isTweet = `comment_to IS NULL`;
 const sql = {
     selectAll: {
         lessPopular: `SELECT ${data} FROM ${joinPostUser} WHERE ${isTweet} ORDER BY post_likes ASC OFFSET $1 LIMIT $2`,
@@ -19,7 +19,7 @@ const sql = {
         },
         pk: `SELECT ${data} FROM ${joinPostUser} WHERE post_id=$1 AND ${isTweet}`
     },
-    insert: `INSERT INTO posts (user_id, post_content) VALUES ($1, $2) RETURNING ${data}`,
+    insert: `INSERT INTO posts (user_id, post_content) VALUES ($1, $2) RETURNING *`,
     update: {
         content: `UPDATE posts SET post_content=$1 WHERE post_id=$2`
     },

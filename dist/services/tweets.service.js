@@ -38,7 +38,8 @@ const findTweetByPk = (id) => __awaiter(void 0, void 0, void 0, function* () {
 exports.findTweetByPk = findTweetByPk;
 const createTweetByUser = (userId, content) => __awaiter(void 0, void 0, void 0, function* () {
     const tweet = yield database_1.default.query(tweets_query_1.default.insert, [userId, content]);
-    return tweet.rows[0];
+    const id = tweet.rows[0].post_id;
+    return (0, exports.findTweetByPk)(id);
 });
 exports.createTweetByUser = createTweetByUser;
 const updateTweetByPk = (id, content) => __awaiter(void 0, void 0, void 0, function* () {

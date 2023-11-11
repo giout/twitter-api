@@ -24,7 +24,8 @@ const findCommentByPk = (id) => __awaiter(void 0, void 0, void 0, function* () {
 exports.findCommentByPk = findCommentByPk;
 const createCommentByTweetPk = (userId, content, tweetId) => __awaiter(void 0, void 0, void 0, function* () {
     const entry = yield database_1.default.query(comments_query_1.default.insert, [userId, content, tweetId]);
-    return entry.rows[0];
+    const id = entry.rows[0].post_id;
+    return (0, exports.findCommentByPk)(id);
 });
 exports.createCommentByTweetPk = createCommentByTweetPk;
 const updateCommentByPk = (id, content) => __awaiter(void 0, void 0, void 0, function* () {

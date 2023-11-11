@@ -12,7 +12,8 @@ export const findCommentByPk = async (id: string) => {
 
 export const createCommentByTweetPk = async (userId: string, content: string, tweetId: string) => {
     const entry = await pool.query(sql.insert, [userId, content, tweetId])
-    return entry.rows[0]
+    const id = entry.rows[0].post_id
+    return findCommentByPk(id)
 }
 
 export const updateCommentByPk = async (id: string, content: string) => {

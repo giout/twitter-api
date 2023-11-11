@@ -30,8 +30,8 @@ export const findTweetByPk = async (id: string) => {
 
 export const createTweetByUser = async (userId: string, content: string) => {
     const tweet = await pool.query(sql.insert, [userId, content])
-
-    return tweet.rows[0]
+    const id = tweet.rows[0].post_id
+    return findTweetByPk(id)
 }
 
 export const updateTweetByPk = async (id: string, content: string) => {
