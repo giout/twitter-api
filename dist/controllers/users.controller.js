@@ -9,13 +9,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getUserFollowing = exports.getUserFollowers = exports.getUserTweets = exports.removeUser = exports.updateUser = exports.getUserById = exports.getAuthUserId = exports.getAllUsers = void 0;
+exports.getUserFollowing = exports.getUserFollowers = exports.getUserComments = exports.getUserTweets = exports.removeUser = exports.updateUser = exports.getUserById = exports.getAuthUserId = exports.getAllUsers = void 0;
 const users_service_1 = require("../services/users.service");
 const bcrypt_1 = require("../utils/bcrypt");
 const tweets_service_1 = require("../services/tweets.service");
 const users_1 = require("../utils/users");
 const users_service_2 = require("../services/users.service");
 const posts_1 = require("../utils/posts");
+const comments_service_1 = require("../services/comments.service");
 const getAllUsers = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         let search, offset, limit;
@@ -103,6 +104,22 @@ const getUserTweets = (req, res, next) => __awaiter(void 0, void 0, void 0, func
     }
 });
 exports.getUserTweets = getUserTweets;
+const getUserComments = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { id } = req.params;
+        let offset, limit;
+        // paginacion
+        offset = req.query.offset || null;
+        limit = req.query.limit || null;
+        yield (0, users_1.userExists)(id);
+        const comments = yield (0, comments_service_1.findCommentsByUser)(id, offset, limit);
+        res.status(200).json(comments);
+    }
+    catch (e) {
+        next(e);
+    }
+});
+exports.getUserComments = getUserComments;
 const getUserFollowers = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;

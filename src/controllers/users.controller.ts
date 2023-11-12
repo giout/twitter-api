@@ -6,6 +6,7 @@ import { findTweetsByUser } from "../services/tweets.service"
 import { userExists, userIsAuth } from "../utils/users"
 import { findFollowersByPk, findFollowingsByPk } from "../services/users.service"
 import { setLikes } from "../utils/posts"
+import { findCommentsByUser } from "../services/comments.service"
 
 export const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -100,6 +101,24 @@ export const getUserTweets = async (req: Request, res: Response, next: NextFunct
         await setLikes(req, tweets)
 
         res.status(200).json(tweets)
+    } catch(e) {
+        next(e)
+    }
+}
+
+export const getUserComments = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { id } = req.params
+        let offset, limit
+
+        // paginacion
+        offset = <string> req.query.offset || null
+        limit = <string> req.query.limit || null
+
+        await userExists(id)
+
+        const comments = await findCommentsByUser(id, offset, limit)
+        res.status(200).json(comments)
     } catch(e) {
         next(e)
     }

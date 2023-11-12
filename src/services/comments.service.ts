@@ -31,3 +31,8 @@ export const findCommentsByTweet = async (tweet_id: string, offset: string|null,
     const comments = await pool.query(sql.selectAllBy.tweet, [tweet_id, offset, limit])
     return comments.rows
 }
+
+export const findCommentsByUser = async (user_id: string, offset: string|null, limit: string|null) => {
+    const comments = await pool.query(sql.selectAllBy.user, [user_id, offset, limit])
+    return comments.rows
+}

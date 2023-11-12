@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express"
-import { createCommentByTweetPk, deleteCommentByPk, findCommentByPk, updateCommentByPk } from "../services/comments.service"
+import { createCommentByTweetPk, deleteCommentByPk, findCommentByPk, findCommentsByUser, updateCommentByPk } from "../services/comments.service"
 import CustomError from "../utils/CustomError"
 import { userExists, userIsAuth } from "../utils/users"
 import { tweetExists } from "../utils/tweets"
