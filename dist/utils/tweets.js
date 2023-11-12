@@ -18,7 +18,7 @@ const CustomError_1 = __importDefault(require("./CustomError"));
 const tweetExists = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const tweet = yield (0, tweets_service_1.findTweetByPk)(id);
     if (!tweet)
-        throw new CustomError_1.default('Tweet does not exist.', 400);
+        throw new CustomError_1.default('Tweet does not exist.', 404);
     return tweet;
 });
 exports.tweetExists = tweetExists;

@@ -21,7 +21,7 @@ const likes_service_1 = require("../services/likes.service");
 const postExists = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const post = yield (0, posts_service_1.findPostByPk)(id);
     if (!post)
-        throw new CustomError_1.default('Post does not exist.', 400);
+        throw new CustomError_1.default('Post does not exist.', 404);
 });
 exports.postExists = postExists;
 // verifica si el post pertenence al usuario que esta autenticado en la api

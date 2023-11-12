@@ -40,13 +40,13 @@ export const logIn = async (req: Request, res: Response, next: NextFunction) => 
         const user = await findUserByAlias(alias)
 
         if (!user)
-            throw new CustomError('User does not exist.', 400)
+            throw new CustomError('User does not exist.', 404)
         
         // verificar si la clave concuerda
         const equals = compareCrypted(password, user.password)
 
         if (!equals) 
-            throw new CustomError('Password is invalid.', 400)
+            throw new CustomError('Password is invalid.', 401)
 
         // crear y enviar token de autenticacion    
         const signature = <string> process.env.TOKEN_SIGNATURE
@@ -62,6 +62,3 @@ export const logIn = async (req: Request, res: Response, next: NextFunction) => 
         next(e)
     }
 }
-
-// username -> andreita3
-// clave -> 1234595049540a

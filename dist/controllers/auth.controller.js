@@ -45,11 +45,11 @@ const logIn = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
         // verificar si usuario existe
         const user = yield (0, users_service_1.findUserByAlias)(alias);
         if (!user)
-            throw new CustomError_1.default('User does not exist.', 400);
+            throw new CustomError_1.default('User does not exist.', 404);
         // verificar si la clave concuerda
         const equals = (0, bcrypt_1.compareCrypted)(password, user.password);
         if (!equals)
-            throw new CustomError_1.default('Password is invalid.', 400);
+            throw new CustomError_1.default('Password is invalid.', 401);
         // crear y enviar token de autenticacion    
         const signature = process.env.TOKEN_SIGNATURE;
         const payload = { id: user.user_id }; // datos que contendra el token
@@ -63,5 +63,3 @@ const logIn = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
     }
 });
 exports.logIn = logIn;
-// username -> andreita3
-// clave -> 1234595049540a

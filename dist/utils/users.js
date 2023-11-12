@@ -18,7 +18,7 @@ const CustomError_1 = __importDefault(require("./CustomError"));
 const userExists = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield (0, users_service_1.findUserByPk)(id);
     if (!user)
-        throw new CustomError_1.default('User does not exist.', 400);
+        throw new CustomError_1.default('User does not exist.', 404);
     return user;
 });
 exports.userExists = userExists;
@@ -26,6 +26,6 @@ exports.userExists = userExists;
 const userIsAuth = (req, id) => {
     const { user } = req;
     if (user.id != id)
-        throw new CustomError_1.default('It is not allowed to create, update or delete data of a user that is not authenticated.', 400);
+        throw new CustomError_1.default('It is not allowed to create, update or delete data of a user that is not authenticated.', 401);
 };
 exports.userIsAuth = userIsAuth;
