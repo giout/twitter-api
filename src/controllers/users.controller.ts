@@ -116,8 +116,10 @@ export const getUserComments = async (req: Request, res: Response, next: NextFun
         limit = <string> req.query.limit || null
 
         await userExists(id)
-
         const comments = await findCommentsByUser(id, offset, limit)
+
+        await setLikes(req, comments)
+
         res.status(200).json(comments)
     } catch(e) {
         next(e)

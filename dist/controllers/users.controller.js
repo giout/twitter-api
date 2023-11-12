@@ -113,6 +113,7 @@ const getUserComments = (req, res, next) => __awaiter(void 0, void 0, void 0, fu
         limit = req.query.limit || null;
         yield (0, users_1.userExists)(id);
         const comments = yield (0, comments_service_1.findCommentsByUser)(id, offset, limit);
+        yield (0, posts_1.setLikes)(req, comments);
         res.status(200).json(comments);
     }
     catch (e) {
