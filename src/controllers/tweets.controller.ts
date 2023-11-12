@@ -93,8 +93,11 @@ export const getCommentsByTweet = async (req: Request, res: Response, next: Next
 
 export const getFeed = async (req: Request, res: Response, next: NextFunction) => {
     try {   
-        let order, offset, limit
-        
+        let content, order, offset, limit
+
+        // filtrado
+        content = <string> req.query.content || ''
+
         // ordenamiento
         order = <string> req.query.order || ''
 
@@ -102,7 +105,7 @@ export const getFeed = async (req: Request, res: Response, next: NextFunction) =
         offset = <string> req.query.offset || null
         limit = <string> req.query.limit || null
 
-        const tweets = await findAllTweets(order, offset, limit)
+        const tweets = await findAllTweets(content, order, offset, limit)
 
         await setLikes(req, tweets)
 

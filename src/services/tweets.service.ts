@@ -45,7 +45,7 @@ export const deleteTweetByPk = async (id: string) => {
     await pool.query(sql.delete, [id])
 }
 
-export const findAllTweets = async (order: string, offset: string|null, limit: string|null) => {
+export const findAllTweets = async (content: string, order: string, offset: string|null, limit: string|null) => {
     // por defecto, los tweets se ordenan por mas reciente
     let sentence = sql.selectAll.new
 
@@ -56,6 +56,6 @@ export const findAllTweets = async (order: string, offset: string|null, limit: s
     if (order === 'lesspopular')
         sentence = sql.selectAll.lessPopular
 
-    const tweets = await pool.query(sentence, [offset, limit])
+    const tweets = await pool.query(sentence, [content, offset, limit])
     return tweets.rows
 }

@@ -92,13 +92,15 @@ const getCommentsByTweet = (req, res, next) => __awaiter(void 0, void 0, void 0,
 exports.getCommentsByTweet = getCommentsByTweet;
 const getFeed = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        let order, offset, limit;
+        let content, order, offset, limit;
+        // filtrado
+        content = req.query.content || '';
         // ordenamiento
         order = req.query.order || '';
         // paginacion
         offset = req.query.offset || null;
         limit = req.query.limit || null;
-        const tweets = yield (0, tweets_service_1.findAllTweets)(order, offset, limit);
+        const tweets = yield (0, tweets_service_1.findAllTweets)(content, order, offset, limit);
         yield (0, posts_1.setLikes)(req, tweets);
         res.status(200).json(tweets);
     }

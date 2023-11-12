@@ -52,7 +52,7 @@ const deleteTweetByPk = (id) => __awaiter(void 0, void 0, void 0, function* () {
     yield database_1.default.query(tweets_query_1.default.delete, [id]);
 });
 exports.deleteTweetByPk = deleteTweetByPk;
-const findAllTweets = (order, offset, limit) => __awaiter(void 0, void 0, void 0, function* () {
+const findAllTweets = (content, order, offset, limit) => __awaiter(void 0, void 0, void 0, function* () {
     // por defecto, los tweets se ordenan por mas reciente
     let sentence = tweets_query_1.default.selectAll.new;
     if (order === 'popular')
@@ -61,7 +61,7 @@ const findAllTweets = (order, offset, limit) => __awaiter(void 0, void 0, void 0
         sentence = tweets_query_1.default.selectAll.oldest;
     if (order === 'lesspopular')
         sentence = tweets_query_1.default.selectAll.lessPopular;
-    const tweets = yield database_1.default.query(sentence, [offset, limit]);
+    const tweets = yield database_1.default.query(sentence, [content, offset, limit]);
     return tweets.rows;
 });
 exports.findAllTweets = findAllTweets;
