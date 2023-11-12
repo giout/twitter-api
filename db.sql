@@ -28,6 +28,7 @@ CREATE TABLE IF NOT EXISTS posts (
     user_id INTEGER NOT NULL,
     post_content TEXT NOT NULL,
     post_likes INTEGER NOT NULL DEFAULT 0,
+    post_comments INTEGER NOT NULL DEFAULT 0,
     creation_date TIMESTAMP NOT NULL DEFAULT NOW(),
     image_url TEXT,
     comment_to INTEGER,
@@ -131,3 +132,44 @@ CREATE OR REPLACE TRIGGER unfollow_user
     ON follows
     FOR EACH ROW
     EXECUTE FUNCTION decrease_user_followers();
+
+
+-- al agregar un registro a la tabla posts con un valor de comment_to apuntando a otro post, se incrementa el valor de post_coments en el post al que se apunta.
+CREATE OR REPLACE FUNCTION increase_comments() 
+    RETURNS TRIGGER 
+    AS 
+    $$
+    BEGIN
+        UPDATE posts
+        SET post_comments = post_comments + 1
+        WHERE post_id = NEW.comment_to;
+        RETURN NEW;
+    END
+    $$
+    LANGUAGE PLPGSQL
+
+CREATE OR REPLACE TRIGGER comment_post
+    AFTER INSERT
+    ON posts
+    FOR EACH ROW
+    EXECUTE FUNCTION increase_comments();
+
+-- al eliminar un registro de la tabla posts con un valor de comment_to apuntando a otro post, se decrementa el valor de post_coments en el post al que se apunta.
+CREATE OR REPLACE FUNCTION decrease_comments() 
+    RETURNS TRIGGER 
+    AS 
+    $$
+    BEGIN
+        UPDATE posts
+        SET post_comments = post_comments - 1
+        WHERE post_id = OLD.comment_to;
+        RETURN OLD;    
+    END
+    $$
+    LANGUAGE PLPGSQL
+
+CREATE OR REPLACE TRIGGER uncomment_post
+    AFTER DELETE 
+    ON posts
+    FOR EACH ROW
+    EXECUTE FUNCTION decrease_comments();
