@@ -13,7 +13,7 @@ export const handleLike = async (req: Request, res: Response, next: NextFunction
 
         await postExists(post_id)
 
-        userIsAuth(req, user_id)
+        //userIsAuth(req, user_id)
 
         // si ya el post tiene like, se elimina, y si no existe, se crea
         const like = await findLike(user_id, post_id)
