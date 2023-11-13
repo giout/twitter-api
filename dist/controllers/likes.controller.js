@@ -16,12 +16,14 @@ exports.handleLike = void 0;
 const posts_1 = require("../utils/posts");
 const CustomError_1 = __importDefault(require("../utils/CustomError"));
 const likes_service_1 = require("../services/likes.service");
+const users_1 = require("../utils/users");
 const handleLike = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { user_id, post_id } = req.body;
         if (!(user_id && post_id))
             throw new CustomError_1.default('Data is missing.', 400);
         yield (0, posts_1.postExists)(post_id);
+        (0, users_1.userIsAuth)(req, user_id);
         // si ya el post tiene like, se elimina, y si no existe, se crea
         const like = yield (0, likes_service_1.findLike)(user_id, post_id);
         if (like) {
