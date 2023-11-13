@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express"
 import { postExists } from "../utils/posts"
 import CustomError from "../utils/CustomError"
 import { createLike, deleteLike, findLike } from "../services/likes.service"
+import { userIsAuth } from "../utils/users"
 
 export const handleLike = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -11,6 +12,8 @@ export const handleLike = async (req: Request, res: Response, next: NextFunction
             throw new CustomError('Data is missing.', 400)
 
         await postExists(post_id)
+
+        userIsAuth(req, user_id)
 
         // si ya el post tiene like, se elimina, y si no existe, se crea
         const like = await findLike(user_id, post_id)
