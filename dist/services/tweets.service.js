@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.findAllTweets = exports.deleteTweetByPk = exports.updateTweetByPk = exports.createTweetByUser = exports.findTweetByPk = exports.findTweetsByUser = void 0;
+exports.findTweetsLikedByUser = exports.findAllTweets = exports.deleteTweetByPk = exports.updateTweetByPk = exports.createTweetByUser = exports.findTweetByPk = exports.findTweetsByUser = void 0;
 const database_1 = __importDefault(require("../config/database"));
 const tweets_query_1 = __importDefault(require("../queries/tweets.query"));
 const findTweetsByUser = (userId, order, offset, limit) => __awaiter(void 0, void 0, void 0, function* () {
@@ -65,3 +65,8 @@ const findAllTweets = (content, order, offset, limit) => __awaiter(void 0, void 
     return tweets.rows;
 });
 exports.findAllTweets = findAllTweets;
+const findTweetsLikedByUser = (userId, offset, limit) => __awaiter(void 0, void 0, void 0, function* () {
+    const tweets = yield database_1.default.query(tweets_query_1.default.selectAllBy.userLike, [userId, offset, limit]);
+    return tweets.rows;
+});
+exports.findTweetsLikedByUser = findTweetsLikedByUser;

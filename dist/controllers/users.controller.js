@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getUserFollowing = exports.getUserFollowers = exports.getUserComments = exports.getUserTweets = exports.removeUser = exports.updateUser = exports.getUserById = exports.getAuthUserId = exports.getAllUsers = void 0;
+exports.getUserLikedTweets = exports.getUserFollowing = exports.getUserFollowers = exports.getUserComments = exports.getUserTweets = exports.removeUser = exports.updateUser = exports.getUserById = exports.getAuthUserId = exports.getAllUsers = void 0;
 const users_service_1 = require("../services/users.service");
 const bcrypt_1 = require("../utils/bcrypt");
 const tweets_service_1 = require("../services/tweets.service");
@@ -157,3 +157,20 @@ const getUserFollowing = (req, res, next) => __awaiter(void 0, void 0, void 0, f
     }
 });
 exports.getUserFollowing = getUserFollowing;
+const getUserLikedTweets = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { id } = req.params;
+        let offset, limit;
+        yield (0, users_1.userExists)(id);
+        // paginacion
+        offset = req.query.offset || null;
+        limit = req.query.limit || null;
+        const tweets = yield (0, tweets_service_1.findTweetsLikedByUser)(id, offset, limit);
+        yield (0, posts_1.setLikes)(req, tweets);
+        res.status(200).json(tweets);
+    }
+    catch (e) {
+        next(e);
+    }
+});
+exports.getUserLikedTweets = getUserLikedTweets;

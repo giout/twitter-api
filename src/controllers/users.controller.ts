@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express"
 import { deleteUser, findUsers, updateUserByPk } from "../services/users.service"
 import { AuthRequest } from "../types/auth"
 import { encrypt } from "../utils/bcrypt"
-import { findTweetsByUser } from "../services/tweets.service"
+import { findTweetsByUser, findTweetsLikedByUser } from "../services/tweets.service"
 import { userExists, userIsAuth } from "../utils/users"
 import { findFollowersByPk, findFollowingsByPk } from "../services/users.service"
 import { setLikes } from "../utils/posts"
@@ -170,4 +170,23 @@ export const getUserFollowing = async (req: Request, res: Response, next: NextFu
     }
 }
 
+export const getUserLikedTweets = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { id } = req.params
+        let offset, limit
+        
+        await userExists(id)
 
+        // paginacion
+        offset = <string> req.query.offset || null
+        limit = <string> req.query.limit || null
+        
+        const tweets = await findTweetsLikedByUser(id, offset, limit)
+
+        await setLikes(req, tweets)
+
+        res.status(200).json(tweets)
+    } catch (e) {
+        next(e)
+    }
+}

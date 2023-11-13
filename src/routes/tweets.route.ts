@@ -1,5 +1,5 @@
 import { Router } from "express"
-import { createTweet, getCommentsByTweet, getTweetById, removeTweet, updateTweet, getFeed } from '../controllers/tweets.controller'
+import { createTweet, getCommentsByTweet, getTweetById, removeTweet, updateTweet, getAllTweets } from '../controllers/tweets.controller'
 import { authentication } from "../middlewares/auth"
 
 const router = Router()
@@ -7,7 +7,7 @@ const router = Router()
 router.use(authentication)
 
 
-router.get('/', getFeed)
+router.get('/', getAllTweets)
 
 router.post('/', createTweet)
 

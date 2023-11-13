@@ -59,3 +59,8 @@ export const findAllTweets = async (content: string, order: string, offset: stri
     const tweets = await pool.query(sentence, [content, offset, limit])
     return tweets.rows
 }
+
+export const findTweetsLikedByUser = async (userId: string, offset: string|null, limit: string|null) => {
+    const tweets = await pool.query(sql.selectAllBy.userLike, [userId, offset, limit])
+    return tweets.rows
+}   

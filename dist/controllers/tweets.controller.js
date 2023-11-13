@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getFeed = exports.getCommentsByTweet = exports.removeTweet = exports.updateTweet = exports.getTweetById = exports.createTweet = void 0;
+exports.getAllTweets = exports.getCommentsByTweet = exports.removeTweet = exports.updateTweet = exports.getTweetById = exports.createTweet = void 0;
 const CustomError_1 = __importDefault(require("../utils/CustomError"));
 const users_1 = require("../utils/users");
 const tweets_service_1 = require("../services/tweets.service");
@@ -90,7 +90,7 @@ const getCommentsByTweet = (req, res, next) => __awaiter(void 0, void 0, void 0,
     }
 });
 exports.getCommentsByTweet = getCommentsByTweet;
-const getFeed = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const getAllTweets = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         let content, order, offset, limit;
         // filtrado
@@ -108,4 +108,4 @@ const getFeed = (req, res, next) => __awaiter(void 0, void 0, void 0, function* 
         next(e);
     }
 });
-exports.getFeed = getFeed;
+exports.getAllTweets = getAllTweets;

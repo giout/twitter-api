@@ -91,7 +91,7 @@ export const getCommentsByTweet = async (req: Request, res: Response, next: Next
     }
 }
 
-export const getFeed = async (req: Request, res: Response, next: NextFunction) => {
+export const getAllTweets = async (req: Request, res: Response, next: NextFunction) => {
     try {   
         let content, order, offset, limit
 
