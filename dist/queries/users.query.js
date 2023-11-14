@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const sql = {
-    selectFollowers: `SELECT * FROM users WHERE user_id IN ( SELECT user_follower FROM follows WHERE user_following=$1 ) AND alias iLIKE $2 || '%' OR first_name iLIKE $2 || '%' OR last_name iLIKE $2 || '%' ORDER BY creation_date DESC OFFSET $3 LIMIT $4`,
-    selectFollowings: `SELECT * FROM users WHERE user_id IN ( SELECT user_following FROM follows WHERE user_follower=$1 ) AND alias iLIKE $2 || '%' OR first_name iLIKE $2 || '%' OR last_name iLIKE $2 || '%' ORDER BY creation_date DESC OFFSET $3 LIMIT $4`,
+    selectFollowings: `SELECT u.* FROM users as u INNER JOIN follows as f ON u.user_id=f.user_following WHERE f.user_follower = $1  AND (alias iLIKE $2 || '%' OR first_name iLIKE $2 || '%' OR last_name iLIKE $2 || '%') ORDER BY creation_date DESC OFFSET $3 LIMIT $4`,
+    selectFollowers: `SELECT u.* FROM users as u INNER JOIN follows as f ON u.user_id=f.user_follower WHERE f.user_following = $1 AND (alias iLIKE $2 || '%' OR first_name iLIKE $2 || '%' OR last_name iLIKE $2 || '%') ORDER BY creation_date DESC OFFSET $3 LIMIT $4`,
     selectAllBy: {
         aliasOrName: `SELECT * FROM users WHERE alias iLIKE $1 || '%' OR first_name iLIKE $1 || '%' OR last_name iLIKE $1 || '%' ORDER BY creation_date DESC OFFSET $2 LIMIT $3`,
         alias: 'SELECT * FROM users WHERE alias = $1',
