@@ -24,7 +24,7 @@ export const createCommentByTweet = async (req: Request, res: Response, next: Ne
         const { user_id, comment_content, tweet_id } = req.body
 
         if (!(user_id && comment_content && tweet_id)) 
-            throw new CustomError('Faltan campos por enviar', 400)
+            throw new CustomError('Data is missing.', 400)
 
         await userExists(user_id)
         userIsAuth(req, user_id)
