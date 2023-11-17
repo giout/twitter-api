@@ -26,6 +26,7 @@ const getAllUsers = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
         offset = req.query.offset || null;
         limit = req.query.limit || null;
         const users = yield (0, users_service_1.findUsers)(search, offset, limit);
+        yield (0, users_1.verifyFollow)(req, users);
         res.status(200).json(users);
     }
     catch (e) {
@@ -49,6 +50,7 @@ const getUserById = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
     try {
         const { id } = req.params;
         const user = yield (0, users_1.userExists)(id);
+        yield (0, users_1.verifyFollow)(req, [user]);
         res.status(200).json(user);
     }
     catch (e) {

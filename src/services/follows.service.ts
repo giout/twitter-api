@@ -2,10 +2,10 @@ import pool from "../config/database"
 import sql from '../queries/follows.query'
 
 export const findFollow = async (user_follower: string , user_following: string) => {
-    const likes = await pool.query(sql.selectAllBy.followerAndFollowing, [user_follower, user_following])
+    const follows = await pool.query(sql.selectAllBy.followerAndFollowing, [user_follower, user_following])
 
-    if (likes.rows[0])
-        return likes.rows[0]
+    if (follows.rows[0])
+        return follows.rows[0]
 
     return 
 }

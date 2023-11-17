@@ -3,7 +3,7 @@ import { deleteUser, findUsers, updateUserByPk } from "../services/users.service
 import { AuthRequest } from "../types/auth"
 import { encrypt } from "../utils/bcrypt"
 import { findTweetsByUser, findTweetsLikedByUser } from "../services/tweets.service"
-import { userExists, userIsAuth } from "../utils/users"
+import { userExists, userIsAuth, verifyFollow } from "../utils/users"
 import { findFollowersByPk, findFollowingsByPk } from "../services/users.service"
 import { setLikes } from "../utils/posts"
 import { findCommentsByUser } from "../services/comments.service"
@@ -20,6 +20,8 @@ export const getAllUsers = async (req: Request, res: Response, next: NextFunctio
         limit = <string> req.query.limit || null
 
         const users = await findUsers(search, offset, limit)
+
+        await verifyFollow(req, users)
 
         res.status(200).json(users)
     } catch(e) {
@@ -44,6 +46,9 @@ export const getUserById = async (req: Request, res: Response, next: NextFunctio
     try {
         const { id } = req.params
         const user = await userExists(id)
+
+        await verifyFollow(req, [user])
+
         res.status(200).json(user)
     } catch(e) {
         next(e)

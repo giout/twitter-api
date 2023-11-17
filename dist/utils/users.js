@@ -12,9 +12,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.userIsAuth = exports.userExists = void 0;
+exports.verifyFollow = exports.userIsAuth = exports.userExists = void 0;
 const users_service_1 = require("../services/users.service");
 const CustomError_1 = __importDefault(require("./CustomError"));
+const follows_service_1 = require("../services/follows.service");
 const userExists = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield (0, users_service_1.findUserByPk)(id);
     if (!user)
@@ -29,3 +30,11 @@ const userIsAuth = (req, id) => {
         throw new CustomError_1.default('It is not allowed to create, update or delete data of a user that is not authenticated.', 401);
 };
 exports.userIsAuth = userIsAuth;
+const verifyFollow = (req, users) => __awaiter(void 0, void 0, void 0, function* () {
+    const { user } = req;
+    for (let i = 0; i < users.length; i++) {
+        const follow = yield (0, follows_service_1.findFollow)(user.id, users[i].user_id);
+        users[i]['following'] = follow != undefined;
+    }
+});
+exports.verifyFollow = verifyFollow;
