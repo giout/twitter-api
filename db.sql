@@ -18,8 +18,8 @@ CREATE TABLE IF NOT EXISTS follows (
     user_following INTEGER,
     creation_date TIMESTAMP NOT NULL DEFAULT NOW(),
     PRIMARY KEY(user_follower, user_following),
-    FOREIGN KEY (user_follower) REFERENCES users (user_id),
-    FOREIGN KEY (user_following) REFERENCES users (user_id),
+    FOREIGN KEY (user_follower) REFERENCES users (user_id) ON DELETE CASCADE,
+    FOREIGN KEY (user_following) REFERENCES users (user_id) ON DELETE CASCADE,
     CHECK (user_follower <> user_following)
 );
 
@@ -33,8 +33,8 @@ CREATE TABLE IF NOT EXISTS posts (
     image_url TEXT,
     comment_to INTEGER,
     PRIMARY KEY (post_id),
-    FOREIGN KEY (user_id) REFERENCES users (user_id),
-    FOREIGN KEY (comment_to) REFERENCES posts (post_id),
+    FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE,
+    FOREIGN KEY (comment_to) REFERENCES posts (post_id) ON DELETE CASCADE,
     CHECK (post_id <> comment_to)
 );
 
@@ -43,8 +43,8 @@ CREATE TABLE IF NOT EXISTS likes (
     user_id INTEGER,
     creation_date TIMESTAMP NOT NULL DEFAULT NOW(),
     PRIMARY KEY(post_id, user_id),
-    FOREIGN KEY (post_id) REFERENCES posts (post_id),
-    FOREIGN KEY (user_id) REFERENCES users (user_id)
+    FOREIGN KEY (post_id) REFERENCES posts (post_id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE
 );
 
 -- al agregar un registro a la tabla likes, se incrementa post_likes en el post correspondiente
