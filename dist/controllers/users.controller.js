@@ -8,6 +8,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getUserLikedTweets = exports.getUserFollowing = exports.getUserFollowers = exports.getUserComments = exports.getUserTweets = exports.removeUser = exports.updateUser = exports.getUserById = exports.getAuthUserId = exports.getAllUsers = void 0;
 const users_service_1 = require("../services/users.service");
@@ -17,6 +20,8 @@ const users_1 = require("../utils/users");
 const users_service_2 = require("../services/users.service");
 const posts_1 = require("../utils/posts");
 const comments_service_1 = require("../services/comments.service");
+const validation_1 = require("../utils/validation");
+const CustomError_1 = __importDefault(require("../utils/CustomError"));
 const getAllUsers = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         let search, offset, limit;
@@ -64,8 +69,12 @@ const updateUser = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
         yield (0, users_1.userExists)(id);
         (0, users_1.userIsAuth)(req, id);
         const { password } = req.body;
-        if (password)
+        if (password) {
+            if (!(0, validation_1.validatePassword)(password)) {
+                throw new CustomError_1.default('Password must contain at least 8 characters, letters and numbers.', 400);
+            }
             req.body.password = (0, bcrypt_1.encrypt)(password);
+        }
         const updatedUser = yield (0, users_service_1.updateUserByPk)(id, req.body);
         res.status(200).json(updatedUser);
     }
