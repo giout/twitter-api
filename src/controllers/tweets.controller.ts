@@ -8,7 +8,7 @@ import { findCommentsByTweet } from "../services/comments.service"
 
 export const createTweet = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const { user_id, tweet_content } = req.body
+        const { user_id, tweet_content, image_url } = req.body
 
         if (!(user_id && tweet_content))
             throw new CustomError('Data is missing.', 400)
@@ -16,7 +16,7 @@ export const createTweet = async (req: Request, res: Response, next: NextFunctio
         await userExists(user_id)
         userIsAuth(req, user_id)
 
-        const createdTweet = await createTweetByUser(user_id, tweet_content)
+        const createdTweet = await createTweetByUser(user_id, tweet_content, image_url)
         
         res.status(201).json(createdTweet)
     } catch(e) {

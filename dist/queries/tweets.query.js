@@ -20,7 +20,7 @@ const sql = {
         pk: `SELECT ${data} FROM ${joinPostUser} WHERE post_id=$1 AND ${isTweet}`,
         userLike: `SELECT ${data} FROM ${joinPostUser} INNER JOIN likes as l ON p.post_id=l.post_id WHERE ${isTweet} AND l.user_id=$1 ORDER BY p.creation_date DESC OFFSET $2 LIMIT $3`
     },
-    insert: `INSERT INTO posts (user_id, post_content) VALUES ($1, $2) RETURNING *`,
+    insert: `INSERT INTO posts (user_id, post_content, image_url) VALUES ($1, $2, $3) RETURNING *`,
     update: {
         content: `UPDATE posts SET post_content=$1 WHERE post_id=$2`
     },

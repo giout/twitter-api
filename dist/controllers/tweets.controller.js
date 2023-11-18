@@ -21,12 +21,12 @@ const posts_1 = require("../utils/posts");
 const comments_service_1 = require("../services/comments.service");
 const createTweet = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { user_id, tweet_content } = req.body;
+        const { user_id, tweet_content, image_url } = req.body;
         if (!(user_id && tweet_content))
             throw new CustomError_1.default('Data is missing.', 400);
         yield (0, users_1.userExists)(user_id);
         (0, users_1.userIsAuth)(req, user_id);
-        const createdTweet = yield (0, tweets_service_1.createTweetByUser)(user_id, tweet_content);
+        const createdTweet = yield (0, tweets_service_1.createTweetByUser)(user_id, tweet_content, image_url);
         res.status(201).json(createdTweet);
     }
     catch (e) {
