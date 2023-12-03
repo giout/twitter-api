@@ -1,6 +1,6 @@
 const sql = {
     selectAllBy: {
-        pk: 'SELECT * FROM posts WHERE post_id=$1 '
+        pk: 'SELECT * FROM twitter.posts WHERE post_id=$1 '
     },
 }
 
