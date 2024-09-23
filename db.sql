@@ -1,4 +1,3 @@
--- Postgresql 14
 CREATE SCHEMA IF NOT EXISTS twitter;
 
 CREATE TABLE IF NOT EXISTS twitter.users (
@@ -61,9 +60,9 @@ CREATE OR REPLACE FUNCTION twitter.increase_post_likes()
         RETURN NEW;
     END
     $$
-    LANGUAGE PLPGSQL
+    LANGUAGE PLPGSQL;
 
-CREATE OR REPLACE TRIGGER like_post
+CREATE TRIGGER like_post
     AFTER INSERT 
     ON twitter.likes
     FOR EACH ROW
@@ -83,7 +82,7 @@ CREATE OR REPLACE FUNCTION twitter.decrease_post_likes()
     $$
     LANGUAGE PLPGSQL;
 
-CREATE OR REPLACE TRIGGER unlike_post
+CREATE TRIGGER unlike_post
     AFTER DELETE 
     ON twitter.likes
     FOR EACH ROW
@@ -106,7 +105,7 @@ CREATE OR REPLACE FUNCTION twitter.increase_user_followers()
     $$
     LANGUAGE PLPGSQL;
 
-CREATE OR REPLACE TRIGGER follow_user
+CREATE TRIGGER follow_user
     AFTER INSERT 
     ON twitter.follows
     FOR EACH ROW
@@ -129,7 +128,7 @@ CREATE OR REPLACE FUNCTION twitter.decrease_user_followers()
     $$
     LANGUAGE PLPGSQL;
 
-CREATE OR REPLACE TRIGGER unfollow_user
+CREATE TRIGGER unfollow_user
     AFTER DELETE 
     ON twitter.follows
     FOR EACH ROW
@@ -150,7 +149,7 @@ CREATE OR REPLACE FUNCTION twitter.increase_comments()
     $$
     LANGUAGE PLPGSQL;
 
-CREATE OR REPLACE TRIGGER comment_post
+CREATE TRIGGER comment_post
     AFTER INSERT
     ON twitter.posts
     FOR EACH ROW
@@ -170,7 +169,7 @@ CREATE OR REPLACE FUNCTION twitter.decrease_comments()
     $$
     LANGUAGE PLPGSQL;
 
-CREATE OR REPLACE TRIGGER uncomment_post
+CREATE TRIGGER uncomment_post
     AFTER DELETE 
     ON twitter.posts
     FOR EACH ROW
