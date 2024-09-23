@@ -14,15 +14,15 @@ export const signUp = async (req: Request, res: Response, next: NextFunction) =>
         if (user)
             throw new CustomError('User already exists.', 400)
 
-        // validacion de campos vacios
+        // validate empty fields
         if (!(alias && first_name && last_name && biography && password))
             throw new CustomError('Data is missing.', 400)
 
-        // validacion de clave
+        // validate password
         if (!validatePassword(password))
             throw new CustomError('Password must contain at least 8 characters, letters and numbers.', 400)
 
-        password = encrypt(password) // encriptacion de clave
+        password = encrypt(password) // encrypt password
 
         const createdUser = await createUser(alias, first_name, last_name, biography, password)
 
@@ -36,25 +36,25 @@ export const logIn = async (req: Request, res: Response, next: NextFunction) => 
     try {
         const { alias, password } = req.body
         
-        // verificar si usuario existe
+        // verify if user exists
         const user = await findUserByAlias(alias)
 
         if (!user)
             throw new CustomError('User does not exist.', 404)
         
-        // verificar si la clave concuerda
+        // verify if password matches
         const equals = compareCrypted(password, user.password)
 
         if (!equals) 
             throw new CustomError('Password is invalid.', 401)
 
-        // crear y enviar token de autenticacion    
+        // create and send authentication token  
         const signature = <string> process.env.TOKEN_SIGNATURE
 
-        const payload = { id: user.user_id} // datos que contendra el token
+        const payload = { id: user.user_id} // token data
 
         const token = jwt.sign(payload, signature, { 
-            expiresIn: 60*60*24*30 // 1 mes
+            expiresIn: 60*60*24*30 // 1 month
         })
 
         res.status(200).json({ token })

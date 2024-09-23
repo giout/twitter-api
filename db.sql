@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS twitter.likes (
     FOREIGN KEY (user_id) REFERENCES twitter.users (user_id) ON DELETE CASCADE
 );
 
--- al agregar un registro a la tabla likes, se incrementa post_likes en el post correspondiente
+-- when a row is added to likes table, post_likes field increases
 CREATE OR REPLACE FUNCTION twitter.increase_post_likes() 
     RETURNS TRIGGER 
     AS 
@@ -68,7 +68,7 @@ CREATE TRIGGER like_post
     FOR EACH ROW
     EXECUTE FUNCTION twitter.increase_post_likes();
 
--- al eliminar un registro a la tabla likes, se decrementa post_likes en el post correspondiente
+-- when a row in likes is deleted, posts.post_likes decreases
 CREATE OR REPLACE FUNCTION twitter.decrease_post_likes() 
     RETURNS TRIGGER 
     AS 
@@ -88,7 +88,7 @@ CREATE TRIGGER unlike_post
     FOR EACH ROW
     EXECUTE FUNCTION twitter.decrease_post_likes();
 
--- al agregar un registro a la tabla follows, se incrementa el valor de user_followers en el registro del usuario que esta siendo seguido y se incrementa el valor de user_followings en el registro del usuario que esta siguiendo
+-- when a row is added to follows, user.user_followers increases in row that refrences user that is being followed and users.user_following increases in row that references user that is following
 CREATE OR REPLACE FUNCTION twitter.increase_user_followers() 
     RETURNS TRIGGER 
     AS 
@@ -111,7 +111,7 @@ CREATE TRIGGER follow_user
     FOR EACH ROW
     EXECUTE FUNCTION twitter.increase_user_followers();
 
--- al eliminar un registro de la tabla follows, se decrementa el valor de user_followers en el registro del usuario al cual se dejo de seguir y se decrementa el valor de user_followings en el registro del usuario que que dejo de seguir
+-- when a row is deleted from follows, user.user_followers decreases in row that refrences user that is being unfollowed and users.user_following decreases in row that references user that is unfollowing
 CREATE OR REPLACE FUNCTION twitter.decrease_user_followers() 
     RETURNS TRIGGER 
     AS 
@@ -134,8 +134,7 @@ CREATE TRIGGER unfollow_user
     FOR EACH ROW
     EXECUTE FUNCTION twitter.decrease_user_followers();
 
-
--- al agregar un registro a la tabla posts con un valor de comment_to apuntando a otro post, se incrementa el valor de post_coments en el post al que se apunta.
+-- when a row is added to posts and posts.comment_to references another post, post.post_comments increases in post that is being referenced
 CREATE OR REPLACE FUNCTION twitter.increase_comments() 
     RETURNS TRIGGER 
     AS 
@@ -155,7 +154,7 @@ CREATE TRIGGER comment_post
     FOR EACH ROW
     EXECUTE FUNCTION twitter.increase_comments();
 
--- al eliminar un registro de la tabla posts con un valor de comment_to apuntando a otro post, se decrementa el valor de post_coments en el post al que se apunta.
+-- when a row is deleted from posts and posts.comment_to references another post, post.post_comments decreases in post that is being referenced
 CREATE OR REPLACE FUNCTION twitter.decrease_comments() 
     RETURNS TRIGGER 
     AS 

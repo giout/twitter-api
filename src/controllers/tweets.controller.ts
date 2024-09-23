@@ -95,13 +95,13 @@ export const getAllTweets = async (req: Request, res: Response, next: NextFuncti
     try {   
         let content, order, offset, limit
 
-        // filtrado
+        // filter
         content = <string> req.query.content || ''
 
-        // ordenamiento
+        // order
         order = <string> req.query.order || ''
 
-        // paginacion
+        // paginate
         offset = <string> req.query.offset || null
         limit = <string> req.query.limit || null
 

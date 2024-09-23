@@ -13,7 +13,7 @@ export const userExists = async (id: string) => {
     return user
 }
 
-// verifica si el id del usuario autenticado es igual al id ingresado
+// verify if authenticated user id is equal to entered id
 export const userIsAuth = (req: Request, id: string) => {
     const { user } = (req as AuthRequest)
 

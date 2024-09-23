@@ -5,7 +5,7 @@ import { Request } from "express"
 import { AuthRequest } from "../types/auth"
 import { findLike } from "../services/likes.service"
 
-// los tweets y comentarios pertenecen a la misma entidad (posts), y en algunos escenarios seran tratados por igual
+// tweets and comments belong to the same entity (posts), and both of them can be managed as equal in some scenarios
 export const postExists = async (id: string) => {
     const post = await findPostByPk(id)
 
@@ -13,7 +13,7 @@ export const postExists = async (id: string) => {
         throw new CustomError('Post does not exist.', 404)
 }
 
-// verifica si el post pertenence al usuario que esta autenticado en la api
+// verify if post belongs to user that is authenticated
 export const postBelongsToUser = async (req: Request, id: string) => {
     const post = await findPostByPk(id)
     const userId = post.user_id
@@ -21,12 +21,12 @@ export const postBelongsToUser = async (req: Request, id: string) => {
     userIsAuth(req, userId)    
 }
 
-// determina si el usuario le ha dado like a los posts ingresados
+// verify if user liked the retrieved posts
 export const setLikes = async (req: Request, posts: any[]) => {
     const { user } = (req as AuthRequest)
     for (let i=0; i < posts.length; i++) {
         let like = await findLike(user.id, posts[i].post_id)
-        // se agrega la nueva propiedad
+        // add new property
         posts[i].liked = like != undefined   
     }
 }

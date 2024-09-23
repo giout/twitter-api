@@ -2,7 +2,7 @@ import pool from "../config/database"
 import sql from "../queries/tweets.query"
 
 export const findTweetsByUser = async (userId: string, order: string, offset: string|null, limit: string|null) => {
-    // por defecto, los tweets se ordenan por mas reciente
+    // tweets are ordered in descendant mode by date
     let sentence = sql.selectAllBy.user.new
 
     if (order === 'popular')

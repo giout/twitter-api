@@ -14,10 +14,9 @@ export const handleFollow = async (req: Request, res: Response, next: NextFuncti
         await userExists(user_follower)
         await userExists(user_following)
 
-        // se comprueba que el usuario que quiere seguir sea el autenticado
         userIsAuth(req, user_follower)
 
-        // si ya el post tiene like, se elimina, y si no existe, se crea
+        // if user is already followed, user is unfollowed
         const like = await findFollow(user_follower, user_following)
         
         if (like) {

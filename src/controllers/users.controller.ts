@@ -14,10 +14,10 @@ export const getAllUsers = async (req: Request, res: Response, next: NextFunctio
     try {
         let search, offset, limit
 
-        // filtrado
+        // filter
         search = <string> req.query.search || '' 
 
-        // paginacion
+        // paginate
         offset = <string> req.query.offset || null
         limit = <string> req.query.limit || null
 
@@ -33,7 +33,7 @@ export const getAllUsers = async (req: Request, res: Response, next: NextFunctio
 
 export const getAuthUserId = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        // obtiene payload del token
+        // obtain token payload
         const { user } = req as AuthRequest
 
         await userExists(user.id)
@@ -99,10 +99,10 @@ export const getUserTweets = async (req: Request, res: Response, next: NextFunct
         const { id } = req.params
         let order, offset, limit
 
-        // ordenamiento
+        // order
         order = <string> req.query.order || ''
 
-        // paginacion
+        // paginate
         offset = <string> req.query.offset || null
         limit = <string> req.query.limit || null
 
@@ -122,7 +122,7 @@ export const getUserComments = async (req: Request, res: Response, next: NextFun
         const { id } = req.params
         let offset, limit
 
-        // paginacion
+        // paginate
         offset = <string> req.query.offset || null
         limit = <string> req.query.limit || null
 
@@ -142,10 +142,10 @@ export const getUserFollowers = async (req: Request, res: Response, next: NextFu
         const { id } = req.params
         let search, offset, limit
 
-        // filtrado
+        // filter
         search = <string> req.query.search || ''
 
-        // paginacion
+        // paginate
         offset = <string> req.query.offset || null
         limit = <string> req.query.limit || null
 
@@ -164,10 +164,10 @@ export const getUserFollowing = async (req: Request, res: Response, next: NextFu
         const { id } = req.params
         let search, offset, limit
 
-        // filtrado
+        // filter
         search = <string> req.query.search || ''
 
-        // paginacion
+        // paginate
         offset = <string> req.query.offset || null
         limit = <string> req.query.limit || null
 
@@ -188,7 +188,7 @@ export const getUserLikedTweets = async (req: Request, res: Response, next: Next
         
         await userExists(id)
 
-        // paginacion
+        // paginate
         offset = <string> req.query.offset || null
         limit = <string> req.query.limit || null
         
